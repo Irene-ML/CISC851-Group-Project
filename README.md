@@ -1,6 +1,6 @@
-# CISC851-Group-Project
+ # CISC851-Group-Project
 
-## Environment Setup
+ ## Environment Setup
 * pythone 3.8.7
 * pygame installation:
 ```bash
