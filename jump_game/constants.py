@@ -1,5 +1,6 @@
 # Define some constants
 GRAVITY = 10
+TIME_INTERVAL = 0.02
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 400
