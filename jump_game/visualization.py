@@ -1,4 +1,4 @@
-"""_description_
+"""isualization
 """
 
 import random
@@ -17,7 +17,7 @@ OBSTACLE_WIDTH = 50
 OBSTACLE_HEIGHT = 200
 OBSTACLE_COLOR = (0, 255, 0)
 OBSTACLE_VELOCITY = 5
-
+OBSTACLE_GAP = 200
 
 class Ball:
     """Create Ball object
@@ -43,9 +43,6 @@ class Ball:
             screen (pygame.Surface): the screen to display the game
         """
         pygame.draw.circle(screen, BALL_COLOR, (int(self.x), int(self.y)), self.radius)
-
-    def move():
-        return
 
 
 class Obstacle:
@@ -74,7 +71,47 @@ class Obstacle:
             screen (pygame.Surface): the screen to display the game
         """
         pygame.draw.rect(screen, OBSTACLE_COLOR, (self.x, self.y, self.width, self.height))
-   
+
+    def update(self):
+        """Update locations of the obstacle when the obstacle moves out of the screen
+        """
+        if self.x + self.width < 0:
+            self.x = SCREEN_WIDTH - self.width
+            self.height = random.randint(10, OBSTACLE_HEIGHT)
+            self.y = SCREEN_HEIGHT - self.height
+    
+    def move(self):
+        """Move the obstacle
+        """
+        self.x += self.speed
+
+## TODO: Adding constraints for the collision state
+def is_collision(ball, obstacle):
+    """Define the condition when the ball and the obstacle have collisions
+
+    Args:
+        ball (Object Ball): A moving ball
+        obstacle (Object Obstacle): A moving obstacle
+    Returns:
+        True if the ball hits the obstacle
+        False otherwise
+    """
+    if ball.x + ball.radius > obstacle.x and ball.x - ball.radius < obstacle.x + obstacle.width and ball.y + ball.radius > obstacle.y and ball.y - ball.radius < obstacle.y + obstacle.height:
+            if ball.y < obstacle.y:
+                return True
+    else:
+        return False
+
+## TODO: Controll the ball's movement in NN
+def ball_control(ball):
+    """Control the movement of the ball
+
+    Args:
+        ball (Object Ball): Moving the ball in the x and y directions
+    """
+    ball.x += ball.speed_x
+    ball.y += ball.speed_y
+
 
 def main():
     # Initialize Pygame
@@ -86,7 +123,8 @@ def main():
 
     # Create the ball and obstacle
     ball = Ball(50, SCREEN_HEIGHT-50, BALL_RADIUS)
-    obstacle = Obstacle(300, 200, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -OBSTACLE_VELOCITY)
+    obstacle1 = Obstacle(SCREEN_WIDTH, 200, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -OBSTACLE_VELOCITY)
+    obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, 200, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -OBSTACLE_VELOCITY)
 
     # Start the game loop
     while True:
@@ -96,16 +134,15 @@ def main():
                 sys.exit()
 
         # Move the ball
-        ball.x += ball.speed_x
-        ball.y += ball.speed_y
+        ball_control(ball)
 
-        # Move the obstacle
-        obstacle.x += obstacle.speed
+        # Move the obstacles
+        obstacle1.move()
+        obstacle2.move() 
 
         # Check for collision with obstacle
-        if ball.x + ball.radius > obstacle.x and ball.x - ball.radius < obstacle.x + obstacle.width and ball.y + ball.radius > obstacle.y and ball.y - ball.radius < obstacle.y + obstacle.height:
-            if ball.y < obstacle.y:
-                ball.speed_y = -ball.speed_y
+        if is_collision(ball, obstacle1):
+            ball.speed_y = -ball.speed_y
 
         # Bounce the ball if it hits the screen edges
         if ball.x + ball.radius > SCREEN_WIDTH or ball.x - ball.radius < 0:
@@ -114,13 +151,14 @@ def main():
             ball.speed_y = -ball.speed_y
 
         # If obstacle goes out of screen, reset its position
-        if obstacle.x + obstacle.width < 0:
-            obstacle.x = SCREEN_WIDTH - obstacle.width
+        obstacle1.update()
+        obstacle2.update()
 
         # Draw the screen
         screen.fill((0, 0, 0))
         ball.draw(screen)
-        obstacle.draw(screen)
+        obstacle1.draw(screen)
+        obstacle2.draw(screen)
         pygame.display.update()
 
 if __name__ == '__main__':
