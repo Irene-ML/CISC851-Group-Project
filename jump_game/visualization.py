@@ -5,6 +5,7 @@ import random
 import pygame, sys
 
 from obstacles import Obstacle
+from constants import GRAVITY, TIME_INTERVAL
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y
 from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VELOCITY
@@ -24,8 +25,8 @@ class Ball:
         self.x = x
         self.y = y
         self.radius = radius
-        self.speed_x = random.randint(0, BALL_VELOCITY_X)
-        self.speed_y = random.randint(0, BALL_VELOCITY_Y)
+        self.speed_x = 0
+        self.speed_y = -2 * OBSTACLE_VELOCITY
 
     def draw(self, screen):
         """Draw the ball as a circle on Surface
@@ -61,9 +62,17 @@ def ball_control(ball):
     Args:
         ball (Object Ball): Moving the ball in the x and y directions
     """
-    ball.x += ball.speed_x
-    ball.y += ball.speed_y
-
+    ball.x += (ball.speed_x * TIME_INTERVAL)
+    if ball.speed_y != 0:
+        ball.y = min(SCREEN_HEIGHT - BALL_RADIUS, ball.y + ball.speed_y * TIME_INTERVAL + 0.5 * GRAVITY * TIME_INTERVAL * TIME_INTERVAL)
+        if ball.y == SCREEN_HEIGHT - BALL_RADIUS:
+            ball.speed_y = 0
+        else:
+            ball.speed_y += (GRAVITY * TIME_INTERVAL)
+    else:
+        ball.y = SCREEN_HEIGHT - BALL_RADIUS
+        ball.speed_y = -5 * BALL_VELOCITY_Y
+    
 
 def main():
     # Initialize Pygame
@@ -74,9 +83,9 @@ def main():
     print(type(screen))
 
     # Create the ball and obstacle
-    ball = Ball(50, SCREEN_HEIGHT-50, BALL_RADIUS)
-    obstacle1 = Obstacle(SCREEN_WIDTH, 200, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -OBSTACLE_VELOCITY)
-    obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, 200, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -OBSTACLE_VELOCITY)
+    ball = Ball(50, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
+    obstacle1 = Obstacle(SCREEN_WIDTH, 200, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -OBSTACLE_VELOCITY * TIME_INTERVAL)
+    obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, 200, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -OBSTACLE_VELOCITY * TIME_INTERVAL)
 
     # Start the game loop
     while True:
