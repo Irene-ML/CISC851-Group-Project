@@ -1,4 +1,6 @@
 # Define some constants
+GRAVITY = 10
+
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 400
 
