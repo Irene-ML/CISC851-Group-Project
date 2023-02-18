@@ -106,14 +106,14 @@ def random_uniform(current_pop, current_fitness, offspring, offspring_fitness):
     fitness = []
     merge_pop = current_pop + offspring
     merge_fit = current_fitness + offspring_fitness
-    remining = len(current_pop)
-    while remining > 0:
+    remaining = len(current_pop)
+    while remaining > 0:
         cur_id = random.randint(0, len(merge_pop) - 1)
         swap(merge_pop, cur_id, len(merge_pop) - 1)
         swap(merge_fit, cur_id, len(merge_pop) - 1)
         population.append(merge_pop.pop())
         fitness.append(merge_fit.pop())
-        remining -= 1
+        remaining -= 1
 
     return population, fitness
 

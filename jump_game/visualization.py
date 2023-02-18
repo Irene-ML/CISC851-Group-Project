@@ -1,23 +1,14 @@
-"""isualization
+"""Visualization
 """
 
 import random
 import pygame, sys
 
-# Define some constants
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 400
+from obstacles import Obstacle
+from constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y
+from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VELOCITY
 
-BALL_RADIUS = 10
-BALL_COLOR = (255, 0, 0)
-BALL_VELOCITY_X = 3
-BALL_VELOCITY_Y = 5
-
-OBSTACLE_WIDTH = 50
-OBSTACLE_HEIGHT = 200
-OBSTACLE_COLOR = (0, 255, 0)
-OBSTACLE_VELOCITY = 5
-OBSTACLE_GAP = 200
 
 class Ball:
     """Create Ball object
@@ -45,45 +36,6 @@ class Ball:
         pygame.draw.circle(screen, BALL_COLOR, (int(self.x), int(self.y)), self.radius)
 
 
-class Obstacle:
-    """Create Obstacle object
-    """
-    def __init__(self, x, y, width, height, speed):
-        """Initialize the Ball
-
-        Args:
-            x (int): location of the obstacle at x axis
-            y (int): location of the obstacle at y axis
-            width (int): the width of the obstacle
-            height (int): the height of the obstacle
-            speed (int): the moving speed of the obstacle
-        """
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.speed = speed
-
-    def draw(self, screen):
-        """Draw Obstacle as rectangular on Surface
-
-        Args:
-            screen (pygame.Surface): the screen to display the game
-        """
-        pygame.draw.rect(screen, OBSTACLE_COLOR, (self.x, self.y, self.width, self.height))
-
-    def update(self):
-        """Update locations of the obstacle when the obstacle moves out of the screen
-        """
-        if self.x + self.width < 0:
-            self.x = SCREEN_WIDTH - self.width
-            self.height = random.randint(10, OBSTACLE_HEIGHT)
-            self.y = SCREEN_HEIGHT - self.height
-    
-    def move(self):
-        """Move the obstacle
-        """
-        self.x += self.speed
 
 ## TODO: Adding constraints for the collision state
 def is_collision(ball, obstacle):
