@@ -5,6 +5,7 @@ import random
 import pygame, sys
 import math
 
+from nn import Agent
 from obstacles import Obstacle
 from constants import GRAVITY, TIME_INTERVAL
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
@@ -67,13 +68,14 @@ def is_collision(ball, obstacle):
 
 
 ## TODO: Controll the ball's movement in NN
-def ball_control(ball):
+def ball_control(ball, obstacle, agent):
     """Control the movement of the ball
 
     Args:
         ball (Object Ball): Moving the ball in the x and y directions
     """
-    ball.x += (ball.speed_x * TIME_INTERVAL)
+    #ball.x += (ball.speed_x * TIME_INTERVAL)
+    
     if ball.speed_y != 0:
         ball.y = min(SCREEN_HEIGHT - BALL_RADIUS, ball.y + ball.speed_y * TIME_INTERVAL + 0.5 * GRAVITY * TIME_INTERVAL * TIME_INTERVAL)
         if ball.y == SCREEN_HEIGHT - BALL_RADIUS:
@@ -93,13 +95,14 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     print(type(screen))
 
-    # Create the ball and obstacle
+    # Create the ball and obstacle and player
     ball = Ball(50, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
     h1 = 10
     h2 = 20
     obstacle1 = Obstacle(SCREEN_WIDTH, SCREEN_HEIGHT - h1, OBSTACLE_WIDTH, h1, -1.5 * OBSTACLE_VELOCITY * TIME_INTERVAL)
     obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, SCREEN_HEIGHT - h2, OBSTACLE_WIDTH, h2, -1.5 * OBSTACLE_VELOCITY * TIME_INTERVAL)
-
+    agent = Agent(6, 8, 2)
+    obstacles = [obstacle2, obstacle1]
     # Start the game loop
     while True:
         
@@ -107,9 +110,10 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-
+        # find the next obstacle
+        obstacle = obstacles[0]
         # Move the ball
-        ball_control(ball)
+        ball_control(ball, obstacle, agent)
 
         # Move the obstacles
         obstacle1.move()
@@ -117,8 +121,7 @@ def main():
 
         # Check for collision with obstacle
         if is_collision(ball, obstacle1):
-            break;
-        
+            break
         if is_collision(ball, obstacle2):
             break
         # Bounce the ball if it hits the screen edges
@@ -130,7 +133,11 @@ def main():
         # If obstacle goes out of screen, reset its position
         obstacle1.update()
         obstacle2.update()
-
+        if obstacles[0].x + OBSTACLE_WIDTH <= ball.x - ball.radius:
+            tmp = obstacles[0]
+            obstacles[0] = obstacles[1]
+            obstacles[1] = tmp
+        
         # Draw the screen
         screen.fill((0, 0, 0))
         ball.draw(screen)
