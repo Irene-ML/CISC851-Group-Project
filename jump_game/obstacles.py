@@ -1,5 +1,6 @@
 """Obstacle Object
 """
+from constants import TIME_INTERVAL
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, OBSTACLE_COLOR, OBSTACLE_HEIGHT
 import random
 import pygame
@@ -42,5 +43,5 @@ class Obstacle:
     def move(self):
         """Move the obstacle
         """
-        self.x += self.speed
+        self.x += (self.speed * TIME_INTERVAL)
 
