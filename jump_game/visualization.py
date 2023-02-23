@@ -4,6 +4,7 @@
 import random
 import pygame, sys
 import math
+import numpy as np
 
 from nn import Agent
 from obstacles import Obstacle
@@ -36,7 +37,7 @@ class Ball:
         Args:
             screen (pygame.Surface): the screen to display the game
         """
-        pygame.draw.circle(screen, BALL_COLOR, (int(self.x), int(self.y)), self.radius)
+        pygame.draw.circle(screen, BALL_COLOR, (self.x, self.y), self.radius)
 
 
 
@@ -60,32 +61,42 @@ def is_collision(ball, obstacle):
             if math.sqrt(math.pow(ball.x - obstacle.x, 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
                 print("collision condition 2 triggered......")
                 return True
-    if ball.x > obstacle.x and ball.x < obstacle.x + obstacle.width:
+    elif ball.x > obstacle.x and ball.x < obstacle.x + obstacle.width:
         if (obstacle.y - ball.y <= ball.radius):
             print("collision condition 3 triggered......")
             return True
+    elif ball.x >= obstacle.x + obstacle.width and ball.x < obstacle.x + obstacle.width + ball.radius:
+        if math.sqrt(math.pow(ball.x - (obstacle.x + obstacle.width), 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
+            print("collision condition 4 triggered......")
+            return True
+        
     return False
 
 
 ## TODO: Controll the ball's movement in NN
-def ball_control(ball, obstacle, agent):
+def ball_control(ball, obstacles, agent):
     """Control the movement of the ball
 
     Args:
         ball (Object Ball): Moving the ball in the x and y directions
     """
+    
     #ball.x += (ball.speed_x * TIME_INTERVAL)
-    
-    if ball.speed_y != 0:
-        ball.y = min(SCREEN_HEIGHT - BALL_RADIUS, ball.y + ball.speed_y * TIME_INTERVAL + 0.5 * GRAVITY * TIME_INTERVAL * TIME_INTERVAL)
-        if ball.y == SCREEN_HEIGHT - BALL_RADIUS:
-            ball.speed_y = 0
-        else:
-            ball.speed_y += (GRAVITY * TIME_INTERVAL)
+    ball.y = min(SCREEN_HEIGHT - ball.radius, ball.y + ball.speed_y * TIME_INTERVAL + 0.5 * GRAVITY * TIME_INTERVAL * TIME_INTERVAL)
+
+    if ball.y < SCREEN_HEIGHT - ball.radius:
+        ball.speed_y += (GRAVITY * TIME_INTERVAL)
     else:
-        ball.y = SCREEN_HEIGHT - BALL_RADIUS
-        ball.speed_y = -15 * BALL_VELOCITY_Y
-    
+        features = []
+        features.append(obstacles[0].height)
+        features.append(obstacles[0].x - ball.x)
+        features.append(-obstacles[0].speed)
+        features.append(1)
+        delta_v = agent.prediction(np.array(features))
+        ball.speed_y = - delta_v[1]
+        obstacles[0].speed = obstacles[0].speed - delta_v[0]
+        obstacles[1].speed = obstacles[1].speed - delta_v[0]
+        #print(delta_v)
 
 def main():
     # Initialize Pygame
@@ -97,11 +108,11 @@ def main():
 
     # Create the ball and obstacle and player
     ball = Ball(50, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
-    h1 = 10
-    h2 = 20
-    obstacle1 = Obstacle(SCREEN_WIDTH, SCREEN_HEIGHT - h1, OBSTACLE_WIDTH, h1, -1.5 * OBSTACLE_VELOCITY * TIME_INTERVAL)
-    obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, SCREEN_HEIGHT - h2, OBSTACLE_WIDTH, h2, -1.5 * OBSTACLE_VELOCITY * TIME_INTERVAL)
-    agent = Agent(6, 8, 2)
+    h1 = random.randint(10, OBSTACLE_HEIGHT)
+    h2 = random.randint(10, OBSTACLE_HEIGHT)
+    obstacle1 = Obstacle(SCREEN_WIDTH, SCREEN_HEIGHT - h1, OBSTACLE_WIDTH, h1, -1.5 * OBSTACLE_VELOCITY)
+    obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, SCREEN_HEIGHT - h2, OBSTACLE_WIDTH, h2, -1.5 * OBSTACLE_VELOCITY)
+    agent = Agent(4, 8, 2)
     obstacles = [obstacle2, obstacle1]
     # Start the game loop
     while True:
@@ -113,22 +124,18 @@ def main():
         # find the next obstacle
         obstacle = obstacles[0]
         # Move the ball
-        ball_control(ball, obstacle, agent)
+        ball_control(ball, obstacles, agent)
 
         # Move the obstacles
         obstacle1.move()
         obstacle2.move() 
 
-        # Check for collision with obstacle
-        if is_collision(ball, obstacle1):
-            break
-        if is_collision(ball, obstacle2):
-            break
+        
         # Bounce the ball if it hits the screen edges
-        if ball.x + ball.radius > SCREEN_WIDTH or ball.x - ball.radius < 0:
-            ball.speed_x = -ball.speed_x
-        if ball.y + ball.radius > SCREEN_HEIGHT or ball.y - ball.radius < 0:
-            ball.speed_y = -ball.speed_y
+        #if ball.x + ball.radius > SCREEN_WIDTH or ball.x - ball.radius < 0:
+        #    ball.speed_x = -ball.speed_x
+        #if ball.y + ball.radius > SCREEN_HEIGHT or ball.y - ball.radius < 0:
+        #    ball.speed_y = -ball.speed_y
 
         # If obstacle goes out of screen, reset its position
         obstacle1.update()
@@ -144,6 +151,11 @@ def main():
         obstacle1.draw(screen)
         obstacle2.draw(screen)
         pygame.display.update()
+        # Check for collision with obstacle
+        if is_collision(ball, obstacle1):
+            break
+        if is_collision(ball, obstacle2):
+            break
 
 if __name__ == '__main__':
     main()
