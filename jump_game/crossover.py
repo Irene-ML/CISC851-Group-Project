@@ -1,6 +1,6 @@
 """_description_
 """
-import nn
+from nn import Agent
 import numpy as np
 
 def balk_crossover(agent1, agent2):
