@@ -74,6 +74,7 @@ def is_collision(ball, obstacle):
 
 
 ## TODO: Controll the ball's movement in NN
+#
 def ball_control(ball, obstacles, agent):
     """Control the movement of the ball
 
@@ -93,11 +94,9 @@ def ball_control(ball, obstacles, agent):
         features.append(-obstacles[0].speed)
         features.append(1)
         delta_v = agent.prediction(np.array(features))
-        ball.speed_y = - delta_v[1]
-        ball.spped_x = ball.speed_x + delta_v[0]
-        obstacles[0].speed = -ball.speed_x
-        obstacles[1].speed = -ball.speed_x
-        #print(delta_v)
+        ball.speed_y = ball.speed_y - delta_v[1]
+        ball.speed_x = ball.speed_x + delta_v[0]
+        #print(delta_v, ball.speed_x)
 
 def main():
     # Initialize Pygame
@@ -120,15 +119,15 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        # find the next obstacle
-        obstacle = obstacles[0]
         # Move the ball
         ball_control(ball, obstacles, agent)
-
+        obstacle1.speed = -ball.speed_x
+        obstacle2.speed = -ball.speed_x
+        #print(ball.speed_x)
         # Move the obstacles
         obstacle1.move()
         obstacle2.move()
-
+        #print(obstacle1.speed)
         # If obstacle goes out of screen, reset its position
         obstacle1.update()
         obstacle2.update()
@@ -139,9 +138,9 @@ def main():
         
         # Draw the screen
         screen.fill((0, 0, 0))
-        ball.draw(screen)
         obstacle1.draw(screen)
         obstacle2.draw(screen)
+        ball.draw(screen)
         pygame.display.update()
         # Check for collision with obstacle
         if is_collision(ball, obstacle1):
