@@ -16,7 +16,7 @@ from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VE
 
 
 ## TODO: Adding constraints for the collision state
-def is_collision(ball, obstacle):
+def is_collision(ball, obstacle, verbose = False):
     """Define the condition when the ball and the obstacle have collisions
 
     Args:
@@ -29,19 +29,23 @@ def is_collision(ball, obstacle):
 
     if ball.x >= obstacle.x - ball.radius and ball.x < obstacle.x:
         if ball.y - obstacle.y >= 0:
-            print("collision condition 1 triggered......")
+            if verbose:
+                print("collision condition 1 triggered......")
             return True
         else:
             if math.sqrt(math.pow(ball.x - obstacle.x, 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
-                print("collision condition 2 triggered......")
+                if verbose:
+                    print("collision condition 2 triggered......")
                 return True
     elif ball.x > obstacle.x and ball.x < obstacle.x + obstacle.width:
         if (obstacle.y - ball.y <= ball.radius):
-            print("collision condition 3 triggered......")
+            if verbose:
+                print("collision condition 3 triggered......")
             return True
     elif ball.x >= obstacle.x + obstacle.width and ball.x < obstacle.x + obstacle.width + ball.radius:
         if math.sqrt(math.pow(ball.x - (obstacle.x + obstacle.width), 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
-            print("collision condition 4 triggered......")
+            if verbose:
+                print("collision condition 4 triggered......")
             return True
         
     return False
