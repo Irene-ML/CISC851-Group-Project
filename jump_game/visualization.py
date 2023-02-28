@@ -10,7 +10,7 @@ from nn import Agent
 from obstacles import Obstacle
 from constants import GRAVITY, TIME_INTERVAL
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
-from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y
+from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y, BALL_X
 from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VELOCITY
 
 
@@ -107,7 +107,7 @@ def main():
     print(type(screen))
 
     # Create the ball and obstacle and player
-    ball = Ball(50, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
+    ball = Ball(BALL_X, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
     obstacle1 = Obstacle(SCREEN_WIDTH, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -ball.speed_x)
     obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -ball.speed_x)
     agent = Agent(4, 8, 2)
