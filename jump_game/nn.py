@@ -21,9 +21,10 @@ class Agent:
         self.n_out = n_out
         self.w_ih = np.random.rand(self.n_feature, self.n_hidden) * 0.1
         self.w_ho = np.random.rand(self.n_hidden, self.n_out) * 0.1
+        self.fitness = []
         
         
-    def prediction(self, input_features, activation = "relu"):
+    def prediction(self, input_features, activation = "sigmoid"):
         """
         Define prediction function that predicts the x, y components of acceleration
         Args:
