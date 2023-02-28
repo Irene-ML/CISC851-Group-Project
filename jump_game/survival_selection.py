@@ -1,7 +1,6 @@
 """_description
 """
 import random
-import evaluation
 
 def mu_plus_lambda(current_pop, current_fitness, offspring, offspring_fitness):
     """mu+lambda selection
@@ -15,7 +14,7 @@ def mu_plus_lambda(current_pop, current_fitness, offspring, offspring_fitness):
     fitness = []
     mu = len(current_pop)
     fitness_to_pop = dict()
-    for i in range(29):
+    for i in range(1,502):
         fitness_to_pop[i] = []
     for seq, fit_val in zip(current_pop, current_fitness):
         fitness_to_pop[fit_val].append(seq)
