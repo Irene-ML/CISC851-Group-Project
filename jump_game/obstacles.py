@@ -8,7 +8,7 @@ import pygame
 class Obstacle:
     """Create Obstacle object
     """
-    def __init__(self, x, y, width, height, speed):
+    def __init__(self, x, width, height, speed):
         """Initialize the Ball
 
         Args:
@@ -19,9 +19,9 @@ class Obstacle:
             speed (int): the moving speed of the obstacle
         """
         self.x = x
-        self.y = y
         self.width = width
-        self.height = height
+        self.height = random.randint(10, OBSTACLE_HEIGHT)
+        self.y = SCREEN_HEIGHT - self.height
         self.speed = speed
 
     def draw(self, screen):
