@@ -11,4 +11,4 @@ def create_landscape(n):
     Args:
         n (int): how many obstacles to be generated
     """
-    return [Obstacle(BALL_X + OBSTACLE_GAP + OBSTACLE_GAP, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, 0) for _ in range(n)]
+    return [Obstacle(BALL_X + OBSTACLE_GAP + OBSTACLE_GAP, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, BALL_VELOCITY_X) for _ in range(n)]
