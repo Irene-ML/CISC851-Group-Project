@@ -8,7 +8,7 @@ from constants import GRAVITY, TIME_INTERVAL
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y, BALL_X
 from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VELOCITY
-from visualizatoin import is_collision, ball_control
+from visualization import is_collision, ball_control
 
 def fitness_calculation(landscape, agent):
     """
@@ -19,7 +19,7 @@ def fitness_calculation(landscape, agent):
     cur_obstacle_id = 0
     ball = Ball(BALL_X, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
 
-    while True
+    while True:
         ball_control(ball, landscape[cur_obstacle_id:], agent)
         landscape[cur_obstacle_id].speed = - ball.speed_x
         landscape[cur_obstacle_id].move()
