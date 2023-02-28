@@ -28,7 +28,7 @@ class Ball:
         self.x = x
         self.y = y
         self.radius = radius
-        self.speed_x = 0
+        self.speed_x = BALL_VELOCITY_X
         self.speed_y = -30
 
     def draw(self, screen):
@@ -94,8 +94,9 @@ def ball_control(ball, obstacles, agent):
         features.append(1)
         delta_v = agent.prediction(np.array(features))
         ball.speed_y = - delta_v[1]
-        obstacles[0].speed = obstacles[0].speed - delta_v[0]
-        obstacles[1].speed = obstacles[1].speed - delta_v[0]
+        ball.spped_x = ball.speed_x + delta_v[0]
+        obstacles[0].speed = -ball.speed_x
+        obstacles[1].speed = -ball.speed_x
         #print(delta_v)
 
 def main():
@@ -108,10 +109,8 @@ def main():
 
     # Create the ball and obstacle and player
     ball = Ball(50, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
-    h1 = random.randint(10, OBSTACLE_HEIGHT)
-    h2 = random.randint(10, OBSTACLE_HEIGHT)
-    obstacle1 = Obstacle(SCREEN_WIDTH, SCREEN_HEIGHT - h1, OBSTACLE_WIDTH, h1, -1.5 * OBSTACLE_VELOCITY)
-    obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, SCREEN_HEIGHT - h2, OBSTACLE_WIDTH, h2, -1.5 * OBSTACLE_VELOCITY)
+    obstacle1 = Obstacle(SCREEN_WIDTH, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -ball.speed_x)
+    obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -ball.speed_x)
     agent = Agent(4, 8, 2)
     obstacles = [obstacle2, obstacle1]
     # Start the game loop
@@ -128,14 +127,7 @@ def main():
 
         # Move the obstacles
         obstacle1.move()
-        obstacle2.move() 
-
-        
-        # Bounce the ball if it hits the screen edges
-        #if ball.x + ball.radius > SCREEN_WIDTH or ball.x - ball.radius < 0:
-        #    ball.speed_x = -ball.speed_x
-        #if ball.y + ball.radius > SCREEN_HEIGHT or ball.y - ball.radius < 0:
-        #    ball.speed_y = -ball.speed_y
+        obstacle2.move()
 
         # If obstacle goes out of screen, reset its position
         obstacle1.update()
