@@ -19,8 +19,8 @@ class Agent:
         self.n_feature = n_feature
         self.n_hidden = n_hidden
         self.n_out = n_out
-        self.w_ih = np.random.rand(self.n_feature, self.n_hidden) * 0.1
-        self.w_ho = np.random.rand(self.n_hidden, self.n_out) * 0.1
+        self.w_ih = np.random.rand(self.n_feature, self.n_hidden) * 0.01
+        self.w_ho = np.random.rand(self.n_hidden, self.n_out) * 0.01
         self.fitness = []
         
         
@@ -32,10 +32,12 @@ class Agent:
             activation (String): activation function that is used at hidden layer
         """
         if activation == "sigmoid":
-            return np.dot(self.sigmoid(np.dot(input_features, self.w_ih)), self.w_ho)
+            #print(self.relu(np.dot(self.relu(np.dot(input_features, self.w_ih)), self.w_ho)))
+            return self.relu(np.dot(self.sigmoid(np.dot(input_features, self.w_ih)), self.w_ho))
         
         elif activation == "relu":
-            return np.dot(self.relu(np.dot(input_features, self.w_ih)), self.w_ho)
+            
+            return self.relu(np.dot(self.relu(np.dot(input_features, self.w_ih)), self.w_ho))
             
         else:
             raise Exception("use 'sigmoid' or 'relu' for second arg")
