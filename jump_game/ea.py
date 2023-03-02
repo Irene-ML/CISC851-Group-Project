@@ -36,13 +36,12 @@ def main():
     popsize = 20
     mating_pool_size = int(popsize*0.5)
     tournament_size = 4
-    mutation_sigma = 0.1
+    mutation_sigma = 0.5
     
     population = [Agent(input_nodes, hidden_layer_nodes, 2) for _ in range(popsize)]
 
-    for gen in range(40):
-        
-        landscapes = [create_landscape(100) for _ in range(5)]
+    landscapes = [create_landscape(100) for _ in range(150)]
+    for gen in range(140):
         pop_fitness = []
         for agent in population:
             agent.fitness = []
@@ -82,7 +81,8 @@ def main():
             offspring.append(off2)
             offspring_fitness.append(statistics.median(off1.fitness))
             offspring_fitness.append(statistics.median(off2.fitness))
-        population, pop_fitness = survival_selection.mu_plus_lambda(population, pop_fitness, offspring, offspring_fitness)
+        #population, pop_fitness = survival_selection.mu_plus_lambda(population, pop_fitness, offspring, offspring_fitness)
+        population, pop_fitness = survival_selection.random_uniform(population, pop_fitness, offspring, offspring_fitness)
         print("generation", gen, ": best fitness", max(pop_fitness), "average fitness", sum(pop_fitness)/len(pop_fitness))
         
     print("ea done..............")
