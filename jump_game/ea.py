@@ -20,6 +20,7 @@ from constants import GRAVITY, TIME_INTERVAL
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y, BALL_X
 from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VELOCITY
+from log import logging
 
 
 def main():
@@ -83,9 +84,9 @@ def main():
             offspring_fitness.append(statistics.median(off2.fitness))
         #population, pop_fitness = survival_selection.mu_plus_lambda(population, pop_fitness, offspring, offspring_fitness)
         population, pop_fitness = survival_selection.random_uniform(population, pop_fitness, offspring, offspring_fitness)
-        print("generation", gen, ": best fitness", max(pop_fitness), "average fitness", sum(pop_fitness)/len(pop_fitness))
+        logging.debug(f"generation {gen} : best fitness {max(pop_fitness)}, average fitness {sum(pop_fitness)/len(pop_fitness)}")
         
-    print("ea done..............")
+    logging.info("ea done..............")
     return 0
 
 main()
