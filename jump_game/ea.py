@@ -49,7 +49,8 @@ def main():
                 agent.fitness.append(fitness.fitness_calculation(landscape, agent))
             pop_fitness.append(statistics.median(agent.fitness))
         # pick parents
-        parents_index = parent_selection.MPS(pop_fitness, mating_pool_size)
+        #parents_index = parent_selection.MPS(pop_fitness, mating_pool_size)
+        parents_index = parent_selection.topK(pop_fitness, mating_pool_size)
         #parents_index = parent_selection.tournament(pop_fitness, mating_pool_size, tournament_size)
         #parents_index = parent_selection.random_uniform(popsize, mating_pool_size)
         random.shuffle(parents_index)
