@@ -31,7 +31,7 @@ def MPS(fitness, mating_pool_size):
             index_cdf += 1
         selected_to_mate.append(index_cdf - 1)
         index_mp += 1
-    print(selected_to_mate)
+    #print(selected_to_mate)
     return selected_to_mate
 
 
@@ -74,3 +74,16 @@ def random_uniform (population_size, mating_pool_size):
         selected_to_mate.append(int(random.uniform(0, 1) * population_size))
     
     return selected_to_mate
+
+
+def topK(fitness, mating_pool_size):
+    """Select parents with highest fitness score
+    Args:
+        fitness (list): a list that stores the fitness value for all parents
+        mating_pool_size (int): number of offspring generated
+    """
+    ind_list = [(fitness[i], i)for i in range(len(fitness))]
+    ind_list.sort(key = lambda x:x[0], reverse=True)
+    
+    return [ind_list[i][1] for i in range(0, mating_pool_size)]
+    
