@@ -41,7 +41,7 @@ def main():
     population = [Agent(input_nodes, hidden_layer_nodes, 2) for _ in range(popsize)]
 
     landscapes = [create_landscape(100) for _ in range(150)]
-    for gen in range(140):
+    for gen in range(10):
         pop_fitness = []
         for agent in population:
             agent.fitness = []
@@ -49,9 +49,9 @@ def main():
                 agent.fitness.append(fitness.fitness_calculation(landscape, agent))
             pop_fitness.append(statistics.median(agent.fitness))
         # pick parents
-        # parents_index = parent_selection.MPS(pop_fitness, mating_pool_size)
-        parents_index = parent_selection.tournament(pop_fitness, mating_pool_size, tournament_size)
-        # parents_index = parent_selection.random_uniform(popsize, mating_pool_size)
+        parents_index = parent_selection.MPS(pop_fitness, mating_pool_size)
+        #parents_index = parent_selection.tournament(pop_fitness, mating_pool_size, tournament_size)
+        #parents_index = parent_selection.random_uniform(popsize, mating_pool_size)
         random.shuffle(parents_index)
         #print(parents_index)
         # reproduction
@@ -82,7 +82,8 @@ def main():
             offspring_fitness.append(statistics.median(off1.fitness))
             offspring_fitness.append(statistics.median(off2.fitness))
         #population, pop_fitness = survival_selection.mu_plus_lambda(population, pop_fitness, offspring, offspring_fitness)
-        population, pop_fitness = survival_selection.random_uniform(population, pop_fitness, offspring, offspring_fitness)
+        population, pop_fitness = survival_selection.replacement(population, pop_fitness, offspring, offspring_fitness)
+        #population, pop_fitness = survival_selection.random_uniform(population, pop_fitness, offspring, offspring_fitness)
         print("generation", gen, ": best fitness", max(pop_fitness), "average fitness", sum(pop_fitness)/len(pop_fitness))
         
     print("ea done..............")
