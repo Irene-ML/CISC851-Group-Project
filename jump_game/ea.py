@@ -36,20 +36,22 @@ params={"hidden_layer_nodes": 8,
     "tournament_size": 4,
     "parent_selection_type": "topK",
     "survival_selection_type": "replacement",
-    "epoch": 500} 
+    "epoch": 500,
+    "obstacle_number": 100,
+    "landscape_size": 150} 
 
 def main(args):
     """Design the evolutionary algorithm
     Returns:
         np.ndarray: two np arrays which are the weights of the agent
     """
-    hidden_layer_nodes, input_nodes, mut_rate, mutation_sigma, mutation_type, xover_rate, xover_exchange_rate, xover_type, fitness_mode, popsize, tournament_size, parent_selection_type, survival_selection_type, epoch = [v for k,v in args.items()]
+    hidden_layer_nodes, input_nodes, mut_rate, mutation_sigma, mutation_type, xover_rate, xover_exchange_rate, xover_type, fitness_mode, popsize, tournament_size, parent_selection_type, survival_selection_type, epoch, obstacle_number, landscape_size = [v for k,v in args.items()]
 
     mating_pool_size = int(popsize*0.5)
     
     population = [Agent(input_nodes, hidden_layer_nodes, 2) for _ in range(popsize)]
 
-    landscapes = [create_landscape(100) for _ in range(150)]
+    landscapes = [create_landscape(obstacle_number) for _ in range(landscape_size)]
     for gen in range(epoch):
         pop_fitness = []
         for agent in population:
