@@ -16,3 +16,21 @@ OBSTACLE_HEIGHT = 200
 OBSTACLE_COLOR = (0, 255, 0)
 OBSTACLE_VELOCITY = 5
 OBSTACLE_GAP = 200
+
+
+
+params={"hidden_layer_nodes": 8, 
+    "input_nodes": 4,
+    "mut_rate": 0.2,
+    "xover_rate": 0.5,
+    "xover_exchange_rate": 0.2,
+    "fitness_mode": 'median',
+    "popsize": 20,
+    "tournament_size": 4,
+    "mutation_sigma":0.5,
+    "epoch": 500,
+    "parent_selection_type": "topK",
+    "survival_selection_type": "replacement"
+    }
+
+

@@ -31,7 +31,6 @@ def MPS(fitness, mating_pool_size):
             index_cdf += 1
         selected_to_mate.append(index_cdf - 1)
         index_mp += 1
-    #print(selected_to_mate)
     return selected_to_mate
 
 
@@ -75,7 +74,6 @@ def random_uniform (population_size, mating_pool_size):
     
     return selected_to_mate
 
-
 def topK(fitness, mating_pool_size):
     """Select parents with highest fitness score
     Args:
@@ -86,4 +84,31 @@ def topK(fitness, mating_pool_size):
     ind_list.sort(key = lambda x:x[0], reverse=True)
     
     return [ind_list[i][1] for i in range(0, mating_pool_size)]
+
+class ParentSelection:
+    """ Class to choose parent selection based on type
+    """
+    def __init__(self, type, mating_pool_size, population_size, tournament_size, fitness):
+        self.type=type
+        self.mating_pool_size=mating_pool_size
+        self.fitness=fitness
+        self.population_size=population_size
+        self.tournament_size=tournament_size
+
+    def selection(self):
+        method_name=self.type+"_selection"
+        method=getattr(self, method_name, lambda :'Invalid')
+        return method()
+  
+    def MPS_selection(self):
+        return MPS(self.fitness, self.mating_pool_size)
+
+    def tournament_selection(self):
+        return tournament(self.fitness, self.mating_pool_size, self.tournament_size)
+ 
+    def random_uniform_selection(self):
+        return random_uniform(self.population_size, self.mating_pool_size)
     
+    def topK_selection(self):
+        return topK(self.fitness, self.mating_pool_size)
+

@@ -1,22 +1,21 @@
 """Visualization
 """
 
-import random
 import pygame, sys
 import math
 import numpy as np
-from ball import Ball
 
+from ball import Ball
 from nn import Agent
 from obstacles import Obstacle
 from constants import GRAVITY, TIME_INTERVAL
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y, BALL_X
 from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VELOCITY
+from log import logging
 
 
-## TODO: Adding constraints for the collision state
-def is_collision(ball, obstacle, verbose = False):
+def is_collision(ball, obstacle):
     """Define the condition when the ball and the obstacle have collisions
 
     Args:
@@ -29,35 +28,32 @@ def is_collision(ball, obstacle, verbose = False):
 
     if ball.x >= obstacle.x - ball.radius and ball.x < obstacle.x:
         if ball.y - obstacle.y >= 0:
-            if verbose:
-                print("collision condition 1 triggered......")
+            logging.debug("collision condition 1 triggered......")
             return True
         else:
             if math.sqrt(math.pow(ball.x - obstacle.x, 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
-                if verbose:
-                    print("collision condition 2 triggered......")
+                logging.debug("collision condition 2 triggered......")
                 return True
     elif ball.x > obstacle.x and ball.x < obstacle.x + obstacle.width:
         if (obstacle.y - ball.y <= ball.radius):
-            if verbose:
-                print("collision condition 3 triggered......")
+            logging.debug("collision condition 3 triggered......")
             return True
     elif ball.x >= obstacle.x + obstacle.width and ball.x < obstacle.x + obstacle.width + ball.radius:
         if math.sqrt(math.pow(ball.x - (obstacle.x + obstacle.width), 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
-            if verbose:
-                print("collision condition 4 triggered......")
+            logging.debug("collision condition 4 triggered......")
             return True
         
     return False
 
 
-## TODO: Controll the ball's movement in NN
-#
+## Controll the ball's movement in NN
 def ball_control(ball, obstacles, agent):
     """Control the movement of the ball
 
     Args:
         ball (Object Ball): Moving the ball in the x and y directions
+        obstacles (List<Object Obstacle>): A record of upcoming obstacles that the ball will face in a sorted order
+        agent (Object Agent): Neural Network agent to initialize the ball's velocities
     """
     
     #ball.x += (ball.speed_x * TIME_INTERVAL)
@@ -74,7 +70,6 @@ def ball_control(ball, obstacles, agent):
         delta_v = agent.prediction(np.array(features))
         ball.speed_y = ball.speed_y - delta_v[1]
         ball.speed_x = ball.speed_x + delta_v[0]
-        #print(delta_v, ball.speed_x)
 
 def main():
     # Initialize Pygame
@@ -82,7 +77,6 @@ def main():
 
     # Create the screen
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    print(type(screen))
 
     # Create the ball and obstacle and player
     ball = Ball(BALL_X, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
@@ -92,7 +86,6 @@ def main():
     obstacles = [obstacle2, obstacle1]
     # Start the game loop
     while True:
-        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -101,11 +94,9 @@ def main():
         ball_control(ball, obstacles, agent)
         obstacle1.speed = -ball.speed_x
         obstacle2.speed = -ball.speed_x
-        #print(ball.speed_x)
         # Move the obstacles
         obstacle1.move()
         obstacle2.move()
-        #print(obstacle1.speed)
         # If obstacle goes out of screen, reset its position
         obstacle1.update()
         obstacle2.update()

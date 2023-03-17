@@ -1,5 +1,7 @@
 """calculate fitness
 """
+
+import statistics
 from nn import Agent
 from ball import Ball
 
@@ -30,3 +32,16 @@ def fitness_calculation(landscape, agent):
             cur_obstacle_id += 1
         if cur_obstacle_id == len(landscape):
             return cur_obstacle_id + 1
+
+def pop_fitness_calculation(method, fitness):
+    """ Calculate the fitness for one agent based on math method.
+    Args:
+        method (string): math method 
+        fitness (list<float>): a collection of calculated fitnesses under different scenarios
+    return: 
+        (float) The calculated fitness based on math method
+    """
+    if method == "median":
+        return statistics.median(fitness)
+    else:
+        return statistics.mean(fitness)

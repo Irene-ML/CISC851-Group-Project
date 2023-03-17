@@ -116,4 +116,6 @@ def random_uniform(current_pop, current_fitness, offspring, offspring_fitness):
 
     return population, fitness
 
-
+survival_selection = {"mu_plus_lambda": mu_plus_lambda,
+                      "replacement": replacement,
+                      "random_uniform": random_uniform}
