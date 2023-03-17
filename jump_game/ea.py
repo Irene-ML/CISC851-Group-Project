@@ -43,28 +43,24 @@ def main(args):
     Returns:
         np.ndarray: two np arrays which are the weights of the agent
     """
-    hidden_layer_nodes, input_nodes, mut_rate, mutation_sigma, mutation_type, xover_rate, xover_exchange_rate, xover_type, fitness_mode, popsize, tournament_size, parent_selection_type, survival_selection_type, epochcs = [v for k,v in args.items()]
+    hidden_layer_nodes, input_nodes, mut_rate, mutation_sigma, mutation_type, xover_rate, xover_exchange_rate, xover_type, fitness_mode, popsize, tournament_size, parent_selection_type, survival_selection_type, epoch = [v for k,v in args.items()]
 
     mating_pool_size = int(popsize*0.5)
     
     population = [Agent(input_nodes, hidden_layer_nodes, 2) for _ in range(popsize)]
 
     landscapes = [create_landscape(100) for _ in range(150)]
-    for gen in range(100):
+    for gen in range(epoch):
         pop_fitness = []
         for agent in population:
             agent.fitness = []
             for landscape in landscapes:
-                # print(f"landscape: {landscape}")
                 agent.fitness.append(fitness_calculation(landscape, agent))
-                # print(f"agent: {agent.fitness}")
             pop_fitness.append(pop_fitness_calculation(fitness_mode, agent.fitness))
-            # print(f"pop_fitness: {pop_fitness}")
         # pick parents
         parents_index= ParentSelection(parent_selection_type, mating_pool_size, popsize, tournament_size, pop_fitness).selection()
 
         random.shuffle(parents_index)
-        # logging.debug(f"parents_index: {parents_index}")
         # reproduction
         offspring =[]
         offspring_fitness = []
@@ -98,7 +94,6 @@ def main(args):
         logging.info(f"generation {gen} : best fitness {max(pop_fitness)}, average fitness {sum(pop_fitness)/len(pop_fitness)}")      
     
     logging.info("ea done..............")
-    print(population)
     return 0
 
 main(params)

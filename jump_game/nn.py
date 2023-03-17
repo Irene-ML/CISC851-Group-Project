@@ -32,7 +32,6 @@ class Agent:
             activation (String): activation function that is used at hidden layer
         """
         if activation == "sigmoid":
-            #print(self.relu(np.dot(self.relu(np.dot(input_features, self.w_ih)), self.w_ho)))
             return self.relu(np.dot(self.sigmoid(np.dot(input_features, self.w_ih)), self.w_ho))
         
         elif activation == "relu":
