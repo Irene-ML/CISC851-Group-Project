@@ -23,7 +23,7 @@ from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VE
 
 from log import logging
 
-params={"hidden_layer_nodes": 8, 
+params = {"hidden_layer_nodes": 8, 
     "input_nodes": 4,
     "mut_rate": 0.2,
     "mutation_sigma":0.5,
@@ -45,7 +45,12 @@ def main(args):
     Returns:
         np.ndarray: two np arrays which are the weights of the agent
     """
-    hidden_layer_nodes, input_nodes, mut_rate, mutation_sigma, mutation_type, xover_rate, xover_exchange_rate, xover_type, fitness_mode, popsize, tournament_size, parent_selection_type, survival_selection_type, epoch, obstacle_number, landscape_size = [v for k,v in args.items()]
+    hidden_layer_nodes, input_nodes, \
+        mut_rate, mutation_sigma, mutation_type, \
+            xover_rate, xover_exchange_rate, xover_type, \
+                fitness_mode, popsize, tournament_size, \
+                    parent_selection_type, survival_selection_type, \
+                        epoch, obstacle_number, landscape_size = [v for k,v in args.items()]
 
     mating_pool_size = int(popsize*0.5)
     

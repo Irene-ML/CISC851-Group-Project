@@ -38,6 +38,8 @@ def pop_fitness_calculation(method, fitness):
     Args:
         method (string): math method 
         fitness (list<float>): a collection of calculated fitnesses under different scenarios
+    return: 
+        (float) The calculated fitness based on math method
     """
     if method == "median":
         return statistics.median(fitness)

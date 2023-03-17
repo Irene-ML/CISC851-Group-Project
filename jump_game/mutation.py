@@ -30,5 +30,5 @@ def uncorr_nstep(agent, sigma_ih, sigma_ho):
     agent.w_ih = agent.w_ih + delta_ih
     agent.w_ho = agent.w_ho + delta_ho
 
-mutation={"onestep": uncorr_onestep,
+mutation = {"onestep": uncorr_onestep,
           "nstep": uncorr_nstep}
