@@ -57,4 +57,4 @@ class Agent:
         Args:
             x (numpy.ndarray): output scores at certain layer
         """
-        return np.maximum(0, x);
+        return np.maximum(0, x)

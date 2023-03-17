@@ -3,9 +3,9 @@
 from nn import Agent
 import numpy as np
 
-def balk_crossover(agent1, agent2):
+def bulk_crossover(agent1, agent2):
     """
-    Apply balk crossover on the chronosome of two agents
+    Apply bulk crossover on the chromosome of two agents
     Args:
         agent1, agent2 (nn): nn objects
     """
@@ -40,3 +40,6 @@ def sample_crossover(agent1, agent2, rate):
     offspring2.w_ho = np.multiply(agent1.w_ho, mask_ho) + np.multiply(agent2.w_ho, 1 - mask_ho)
     
     return offspring1, offspring2
+
+crossover = {"bulk": bulk_crossover, 
+             "sample": sample_crossover}

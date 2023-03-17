@@ -25,7 +25,7 @@ def mu_plus_lambda(current_pop, current_fitness, offspring, offspring_fitness):
     id_cur = 0
     id_off = 0
     while mu > 0:
-        if current_fitness[id_cur] >= offspring_fitness[id_off]:
+        if id_off == len(offspring_fitness) or current_fitness[id_cur] >= offspring_fitness[id_off]:
             fitness.append(current_fitness[id_cur])
             population.append(fitness_to_pop[current_fitness[id_cur]].pop())
             id_cur += 1
@@ -116,4 +116,6 @@ def random_uniform(current_pop, current_fitness, offspring, offspring_fitness):
 
     return population, fitness
 
-
+survival_selection = {"mu_plus_lambda": mu_plus_lambda,
+                      "replacement": replacement,
+                      "random_uniform": random_uniform}
