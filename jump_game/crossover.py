@@ -41,5 +41,8 @@ def sample_crossover(agent1, agent2, rate):
     
     return offspring1, offspring2
 
-crossover = {"bulk": bulk_crossover, 
+def _bulk_crossover(agent1, agent2, rate):
+    return bulk_crossover(agent1, agent2)
+
+crossover = {"bulk": _bulk_crossover, 
              "sample": sample_crossover}

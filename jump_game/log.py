@@ -10,12 +10,12 @@ log_level = logging.DEBUG
 
 date_time = time.strftime("%Y%m%d-%H%M%S")
 
-def log_config(log_level):
+def log_config(log_level, new_path="./log"):
     """ Define log configuration and log store location
     parameters:
-        log_level: set up the log level
+        log_level (constant): set up the log level
+        new_path (string): log path, default is ./log
     """
-    new_path = "./log"
     if not os.path.exists(new_path):
         os.makedirs(new_path)
         print("Directory '% s' created" % new_path)

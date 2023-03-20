@@ -4,7 +4,6 @@ CISC 851 -- Group Project
 """
 
 # imports
-import statistics
 import random
 
 from fitness import fitness_calculation, pop_fitness_calculation
@@ -15,7 +14,6 @@ from survival_selection import survival_selection
 
 from nn import Agent
 from landscape import create_landscape
-import obstacles
 from constants import GRAVITY, TIME_INTERVAL
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y, BALL_X
@@ -23,6 +21,7 @@ from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VE
 
 from log import logging
 
+# Sample parameters
 params = {"hidden_layer_nodes": 8, 
     "input_nodes": 4,
     "mut_rate": 0.2,

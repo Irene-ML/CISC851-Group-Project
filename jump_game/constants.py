@@ -1,3 +1,5 @@
+import numpy as np
+
 # Define some constants
 GRAVITY = 10
 TIME_INTERVAL = 0.02
@@ -17,20 +19,21 @@ OBSTACLE_COLOR = (0, 255, 0)
 OBSTACLE_VELOCITY = 5
 OBSTACLE_GAP = 200
 
-
-
-params={"hidden_layer_nodes": 8, 
-    "input_nodes": 4,
-    "mut_rate": 0.2,
-    "xover_rate": 0.5,
-    "xover_exchange_rate": 0.2,
-    "fitness_mode": 'median',
-    "popsize": 20,
-    "tournament_size": 4,
-    "mutation_sigma":0.5,
-    "epoch": 500,
-    "parent_selection_type": "topK",
-    "survival_selection_type": "replacement"
-    }
+HYPER_PARAMS = {"hidden_layer_nodes": [8, 9],
+    "input_nodes": [4],
+    "mut_rate": [0.2],
+    "mutation_sigma": [0.5],
+    "mutation_type": ['onestep'],
+    "xover_rate": [0.5],
+    "xover_exchange_rate": np.arange(0, 0.4, 0.2),
+    "xover_type": ['sample'],
+    "fitness_mode": ['median','mean'],
+    "popsize": [20],
+    "tournament_size": [4],
+    "parent_selection_type": ["topK", "MPS", "tournament", "random_uniform"],
+    "survival_selection_type": ["replacement", "mu_plus_lambda", "random_uniform"],
+    "epoch": [500],
+    "obstacle_number": [100],
+    "landscape_size": [150]} 
 
 
