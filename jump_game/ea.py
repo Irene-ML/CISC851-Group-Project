@@ -26,7 +26,7 @@ params = {"hidden_layer_nodes": 8,
     "input_nodes": 5,
     "mut_rate": 0.6,
     "mutation_sigma":1,
-    "mutation_type": 'onestep',
+    "mutation_type": 'nstep',
     "xover_rate": 0.0,
     "xover_exchange_rate": 0.2,
     "xover_type": 'sample',
@@ -80,10 +80,16 @@ def main(args):
                 off1 = Agent(population[parents_index[i]].n_feature, population[parents_index[i]].n_hidden, population[parents_index[i]].n_out)
                 off1.w_ih = population[parents_index[i]].w_ih
                 off1.w_ho = population[parents_index[i]].w_ho
+                off1.sigma_ih = population[parents_index[i]].sigma_ih
+                off1.sigma_ho = population[parents_index[i]].sigma_ho
                 off2 = Agent(population[parents_index[i]].n_feature, population[parents_index[i]].n_hidden, population[parents_index[i]].n_out)
                 off2.w_ih = population[parents_index[i + 1]].w_ih
                 off2.w_ho = population[parents_index[i + 1]].w_ho
+                off2.sigma_ih = population[parents_index[i + 1]].sigma_ih
+                off2.sigma_ho = population[parents_index[i + 1]].sigma_ho
             sigma = mutation_sigma
+            off1.update_sigma(mut_rate)
+            off2.update_sigma(mut_rate)
             mutation[mutation_type](off1, sigma, mut_rate)
             mutation[mutation_type](off2, sigma, mut_rate)
 
@@ -100,7 +106,7 @@ def main(args):
 
         population, pop_fitness = survival_selection[survival_selection_type](population, pop_fitness, offspring, offspring_fitness)
         logging.info(f"generation {gen} : best fitness {max(pop_fitness)}, average fitness {sum(pop_fitness)/len(pop_fitness)}")
-        #print("check 0th fitness distr: ",population[0].fitness)
+        print("check 0th fitness distr: ",population[0].fitness)
     logging.info("ea done..............")
     return 0
 
