@@ -55,6 +55,7 @@ def main(args):
     
     population = [Agent(input_nodes, hidden_layer_nodes, 2) for _ in range(popsize)]
     landscapes = [create_landscape(obstacle_number) for _ in range(landscape_size)]
+    output = {}
     
     pop_fitness = []
     for agent in population:
@@ -62,6 +63,9 @@ def main(args):
         for landscape in landscapes:
             agent.fitness.append(fitness_calculation(landscape, agent))
         pop_fitness.append(pop_fitness_calculation(fitness_mode, agent.fitness))
+    
+    output["initial"] = {"fitness": pop_fitness}
+    
     for gen in range(epoch):
         
         # pick parents
@@ -105,10 +109,11 @@ def main(args):
             i += 2
 
         population, pop_fitness = survival_selection[survival_selection_type](population, pop_fitness, offspring, offspring_fitness)
-        logging.info(f"generation {gen} : best fitness {max(pop_fitness)}, average fitness {sum(pop_fitness)/len(pop_fitness)}")
-        print("check 0th fitness distr: ",population[0].fitness)
+        output["generations"] = {gen: pop_fitness, "best fitness": max(pop_fitness), "average fitness": sum(pop_fitness)/len(pop_fitness)}
+        logging.info(output["generations"])
+
     logging.info("ea done..............")
-    return 0
+    return output
 
 main(params)
 

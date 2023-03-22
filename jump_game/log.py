@@ -5,7 +5,7 @@ import time
 # Configuration variable to define log level, can be modified 
 # Log level with numeric representation: 
 #   NOTSET: 0, DEBUG 10, INFO: 20, WARNING: 30, ERROR: 40, CRITICAL: 50
-log_level = logging.DEBUG
+log_level = logging.INFO
 
 
 date_time = time.strftime("%Y%m%d-%H%M%S")
