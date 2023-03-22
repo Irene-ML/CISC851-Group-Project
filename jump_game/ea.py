@@ -23,20 +23,20 @@ from log import logging
 
 # Sample parameters
 params = {"hidden_layer_nodes": 8, 
-    "input_nodes": 4,
-    "mut_rate": 0.2,
-    "mutation_sigma":0.5,
+    "input_nodes": 5,
+    "mut_rate": 0.6,
+    "mutation_sigma":1,
     "mutation_type": 'onestep',
-    "xover_rate": 0.5,
+    "xover_rate": 0.0,
     "xover_exchange_rate": 0.2,
     "xover_type": 'sample',
     "fitness_mode": 'median',
-    "popsize": 20,
+    "popsize": 40,
     "tournament_size": 4,
     "parent_selection_type": "topK",
-    "survival_selection_type": "replacement",
-    "epoch": 500,
-    "obstacle_number": 100,
+    "survival_selection_type": "mu_plus_lambda",
+    "epoch": 40,
+    "obstacle_number": 120,
     "landscape_size": 150} 
 
 def main(args):
@@ -54,15 +54,16 @@ def main(args):
     mating_pool_size = int(popsize*0.5)
     
     population = [Agent(input_nodes, hidden_layer_nodes, 2) for _ in range(popsize)]
-
     landscapes = [create_landscape(obstacle_number) for _ in range(landscape_size)]
+    
+    pop_fitness = []
+    for agent in population:
+        agent.fitness = []
+        for landscape in landscapes:
+            agent.fitness.append(fitness_calculation(landscape, agent))
+        pop_fitness.append(pop_fitness_calculation(fitness_mode, agent.fitness))
     for gen in range(epoch):
-        pop_fitness = []
-        for agent in population:
-            agent.fitness = []
-            for landscape in landscapes:
-                agent.fitness.append(fitness_calculation(landscape, agent))
-            pop_fitness.append(pop_fitness_calculation(fitness_mode, agent.fitness))
+        
         # pick parents
         parents_index= ParentSelection(parent_selection_type, mating_pool_size, popsize, tournament_size, pop_fitness).selection()
 
@@ -82,9 +83,9 @@ def main(args):
                 off2 = Agent(population[parents_index[i]].n_feature, population[parents_index[i]].n_hidden, population[parents_index[i]].n_out)
                 off2.w_ih = population[parents_index[i + 1]].w_ih
                 off2.w_ho = population[parents_index[i + 1]].w_ho
-            sigma = mutation_sigma / (gen + 1)
-            mutation[mutation_type](off1, sigma)
-            mutation[mutation_type](off2, sigma)
+            sigma = mutation_sigma
+            mutation[mutation_type](off1, sigma, mut_rate)
+            mutation[mutation_type](off2, sigma, mut_rate)
 
             off1.fitness = []
             off2.fitness = []
@@ -95,10 +96,11 @@ def main(args):
             offspring.append(off2)
             offspring_fitness.append(pop_fitness_calculation(fitness_mode, off1.fitness))
             offspring_fitness.append(pop_fitness_calculation(fitness_mode, off2.fitness))
+            i += 2
 
         population, pop_fitness = survival_selection[survival_selection_type](population, pop_fitness, offspring, offspring_fitness)
-        logging.info(f"generation {gen} : best fitness {max(pop_fitness)}, average fitness {sum(pop_fitness)/len(pop_fitness)}")      
-    
+        logging.info(f"generation {gen} : best fitness {max(pop_fitness)}, average fitness {sum(pop_fitness)/len(pop_fitness)}")
+        #print("check 0th fitness distr: ",population[0].fitness)
     logging.info("ea done..............")
     return 0
 
