@@ -20,20 +20,20 @@ OBSTACLE_VELOCITY = 5
 OBSTACLE_GAP = 200
 
 HYPER_PARAMS = {"hidden_layer_nodes": [8, 9],
-    "input_nodes": [4],
-    "mut_rate": [0.2],
-    "mutation_sigma": [0.5],
+    "input_nodes": [5],
+    "mut_rate": [0.5],
+    "mutation_sigma": [1],
     "mutation_type": ['onestep'],
     "xover_rate": [0.5],
     "xover_exchange_rate": np.arange(0, 0.4, 0.2),
     "xover_type": ['sample'],
     "fitness_mode": ['median','mean'],
-    "popsize": [20],
+    "popsize": [40],
     "tournament_size": [4],
     "parent_selection_type": ["topK", "MPS", "tournament", "random_uniform"],
     "survival_selection_type": ["replacement", "mu_plus_lambda", "random_uniform"],
-    "epoch": [500],
-    "obstacle_number": [100],
+    "epoch": [40],
+    "obstacle_number": [120],
     "landscape_size": [150]} 
 
 
