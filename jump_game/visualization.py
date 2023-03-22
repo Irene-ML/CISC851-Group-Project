@@ -65,7 +65,8 @@ def ball_control(ball, obstacles, agent, vx_min = 20, vx_max = 50, vy_max = 80):
         features = []
         features.append((obstacles[0].height - 0.5 * OBSTACLE_HEIGHT) / OBSTACLE_HEIGHT)
         features.append(((obstacles[0].x - ball.x) - 0.5 * OBSTACLE_GAP ) / OBSTACLE_GAP)
-        features.append((-obstacles[0].speed - (vx_max + vx_min) / 2) / (vx_max - vx_min) * 2)
+        #features.append((-obstacles[0].speed - (vx_max + vx_min) / 2) / (vx_max - vx_min) * 2)
+        features.append((-obstacles[0].speed - vx_min) / (vx_max - vx_min) * 2)
         features.append((ball.speed_y - vy_max / 2) / vy_max * 2)
         features.append(1)
         delta_v = agent.prediction(np.array(features))
