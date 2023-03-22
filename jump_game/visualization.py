@@ -65,12 +65,12 @@ def ball_control(ball, obstacles, agent, vx_min = 20, vx_max = 50, vy_max = 80):
         features = []
         features.append((obstacles[0].height - 0.5 * OBSTACLE_HEIGHT) / OBSTACLE_HEIGHT)
         features.append(((obstacles[0].x - ball.x) - 0.5 * OBSTACLE_GAP ) / OBSTACLE_GAP)
-        features.append((-obstacles[0].speed - 20) / 15)
-        features.append((ball.speed_y - 40) / 40)
+        features.append((-obstacles[0].speed - (vx_max + vx_min) / 2) / (vx_max - vx_min) * 2)
+        features.append((ball.speed_y - vy_max / 2) / vy_max * 2)
         features.append(1)
         delta_v = agent.prediction(np.array(features))
-        ball.speed_y = - delta_v[1] * 0.8
-        ball.speed_x = delta_v[0] * 0.3 + 20
+        ball.speed_y = - delta_v[1] * vy_max / 100
+        ball.speed_x = delta_v[0] * (vx_max - vx_min) / 100 + vx_min
 
 def main():
     # Initialize Pygame
