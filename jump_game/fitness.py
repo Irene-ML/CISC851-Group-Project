@@ -33,7 +33,7 @@ def fitness_calculation(landscape, agent):
         if landscape[cur_obstacle_id].x + OBSTACLE_WIDTH <= ball.x - ball.radius:
             cur_obstacle_id += 1
         if cur_obstacle_id == len(landscape):
-            reset_obstacles(landscape, cur_obstacle_id)
+            reset_obstacles(landscape, cur_obstacle_id - 1)
             return cur_obstacle_id
 
 def pop_fitness_calculation(method, fitness):
