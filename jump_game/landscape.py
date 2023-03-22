@@ -12,3 +12,13 @@ def create_landscape(n):
         n (int): how many obstacles to be generated
     """
     return [Obstacle(BALL_X + OBSTACLE_GAP + OBSTACLE_GAP, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -BALL_VELOCITY_X) for _ in range(n)]
+
+
+def reset_obstacles(landscape, id):
+    """
+    Args:
+        landscape (list): a list of obstacles
+        id (int): reset the x position of obstacles with range[0, id]
+    """
+    for i in range(id + 1):
+        landscape[i].x = BALL_X + OBSTACLE_GAP
