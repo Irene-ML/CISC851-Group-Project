@@ -4,6 +4,7 @@
 import statistics
 from nn import Agent
 from ball import Ball
+from landscape import reset_obstacles
 
 from obstacles import Obstacle
 from constants import GRAVITY, TIME_INTERVAL
@@ -26,12 +27,14 @@ def fitness_calculation(landscape, agent):
         landscape[cur_obstacle_id].speed = - ball.speed_x
         landscape[cur_obstacle_id].move()
         if is_collision(ball, landscape[cur_obstacle_id]):
+            reset_obstacles(landscape, cur_obstacle_id + 1)
             return cur_obstacle_id + 1
             
         if landscape[cur_obstacle_id].x + OBSTACLE_WIDTH <= ball.x - ball.radius:
             cur_obstacle_id += 1
         if cur_obstacle_id == len(landscape):
-            return cur_obstacle_id + 1
+            reset_obstacles(landscape, cur_obstacle_id)
+            return cur_obstacle_id
 
 def pop_fitness_calculation(method, fitness):
     """ Calculate the fitness for one agent based on math method.
@@ -43,5 +46,9 @@ def pop_fitness_calculation(method, fitness):
     """
     if method == "median":
         return statistics.median(fitness)
+    elif method == "max":
+        return max(fitness)
+    elif method == "min":
+        return min(fitness)
     else:
         return statistics.mean(fitness)
