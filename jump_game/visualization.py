@@ -28,19 +28,19 @@ def is_collision(ball, obstacle):
 
     if ball.x >= obstacle.x - ball.radius and ball.x < obstacle.x:
         if ball.y - obstacle.y >= 0:
-            logging.debug("collision condition 1 triggered......")
+            #logging.debug("collision condition 1 triggered......")
             return True
         else:
             if math.sqrt(math.pow(ball.x - obstacle.x, 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
-                logging.debug("collision condition 2 triggered......")
+                #logging.debug("collision condition 2 triggered......")
                 return True
     elif ball.x > obstacle.x and ball.x < obstacle.x + obstacle.width:
         if (obstacle.y - ball.y <= ball.radius):
-            logging.debug("collision condition 3 triggered......")
+            #logging.debug("collision condition 3 triggered......")
             return True
     elif ball.x >= obstacle.x + obstacle.width and ball.x < obstacle.x + obstacle.width + ball.radius:
         if math.sqrt(math.pow(ball.x - (obstacle.x + obstacle.width), 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
-            logging.debug("collision condition 4 triggered......")
+            #logging.debug("collision condition 4 triggered......")
             return True
         
     return False
@@ -63,13 +63,14 @@ def ball_control(ball, obstacles, agent):
         ball.speed_y += (GRAVITY * TIME_INTERVAL)
     else:
         features = []
-        features.append(obstacles[0].height)
-        features.append(obstacles[0].x - ball.x)
-        features.append(-obstacles[0].speed)
+        features.append((obstacles[0].height - 0.5 * OBSTACLE_HEIGHT) / OBSTACLE_HEIGHT)
+        features.append(((obstacles[0].x - ball.x) - 0.5 * OBSTACLE_GAP ) / OBSTACLE_GAP)
+        features.append((-obstacles[0].speed - 20) / 15)
+        features.append((ball.speed_y - 40) / 40)
         features.append(1)
         delta_v = agent.prediction(np.array(features))
-        ball.speed_y = ball.speed_y - delta_v[1]
-        ball.speed_x = ball.speed_x + delta_v[0]
+        ball.speed_y = - delta_v[1] * 0.8
+        ball.speed_x = delta_v[0] * 0.3 + 20
 
 def main():
     # Initialize Pygame
