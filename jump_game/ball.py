@@ -19,7 +19,7 @@ class Ball:
         self.y = y
         self.radius = radius
         self.speed_x = BALL_VELOCITY_X
-        self.speed_y = -30
+        self.speed_y = BALL_VELOCITY_Y
 
     def draw(self, screen):
         """Draw the ball as a circle on Surface
