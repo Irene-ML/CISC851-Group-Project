@@ -19,6 +19,7 @@ OBSTACLE_COLOR = (0, 255, 0)
 OBSTACLE_VELOCITY = 5
 OBSTACLE_GAP = 200
 
+NUMBER_OF_RUNNING = 20
 HYPER_PARAMS = {"hidden_layer_nodes": [8],
     "input_nodes": [5],
     "mut_rate": [0.2, 0.5, 0.8],
