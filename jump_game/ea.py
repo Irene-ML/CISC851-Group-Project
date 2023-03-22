@@ -109,11 +109,12 @@ def main(args):
             i += 2
 
         population, pop_fitness = survival_selection[survival_selection_type](population, pop_fitness, offspring, offspring_fitness)
-        output["generations"] = {gen: pop_fitness, "best fitness": max(pop_fitness), "average fitness": sum(pop_fitness)/len(pop_fitness)}
-        logging.info(output["generations"])
+        output["generated"] = {"generation": gen, "fitness": pop_fitness, "best fitness": max(pop_fitness), "average fitness": sum(pop_fitness)/len(pop_fitness)}
+        logging.info(output["generated"])
 
     logging.info("ea done..............")
     return output
 
-main(params)
+# Comment this out for system testing
+# main(params)
 

@@ -1,8 +1,8 @@
 import itertools
 import json
 import os
-import ea
 import numpy as np
+import ea
 from constants import HYPER_PARAMS, NUMBER_OF_RUNNING
 from log import logging
 
@@ -52,5 +52,5 @@ if __name__ == "__main__":
     
     for n in range(NUMBER_OF_RUNNING):
         if len(param_combinations) == num_combinations:
-            file_generator(param_combinations, HYPER_PARAMS, f"{test_path}/test_{n}")
+            file_generator(param_combinations, HYPER_PARAMS, f"{test_path}/test_{n+1}")
     
