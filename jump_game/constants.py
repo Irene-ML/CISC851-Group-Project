@@ -19,19 +19,19 @@ OBSTACLE_COLOR = (0, 255, 0)
 OBSTACLE_VELOCITY = 5
 OBSTACLE_GAP = 200
 
-HYPER_PARAMS = {"hidden_layer_nodes": [8, 9],
+HYPER_PARAMS = {"hidden_layer_nodes": [8],
     "input_nodes": [5],
-    "mut_rate": [0.5],
-    "mutation_sigma": [1],
-    "mutation_type": ['onestep'],
+    "mut_rate": [0.2, 0.5, 0.8],
+    "mutation_sigma": [1, 3],
+    "mutation_type": ['onestep', 'nstep'],
     "xover_rate": [0.5],
-    "xover_exchange_rate": np.arange(0, 0.4, 0.2),
+    "xover_exchange_rate": [0.2],
     "xover_type": ['sample'],
     "fitness_mode": ['median','mean'],
     "popsize": [40],
     "tournament_size": [4],
-    "parent_selection_type": ["topK", "MPS", "tournament", "random_uniform"],
-    "survival_selection_type": ["replacement", "mu_plus_lambda", "random_uniform"],
+    "parent_selection_type": ["topK", "MPS", "tournament"],
+    "survival_selection_type": ["replacement", "mu_plus_lambda"],
     "epoch": [40],
     "obstacle_number": [120],
     "landscape_size": [150]} 
