@@ -27,7 +27,7 @@ def fitness_calculation(landscape, agent):
         landscape[cur_obstacle_id].speed = - ball.speed_x
         landscape[cur_obstacle_id].move()
         if is_collision(ball, landscape[cur_obstacle_id]):
-            reset_obstacles(landscape, cur_obstacle_id + 1)
+            reset_obstacles(landscape, cur_obstacle_id)
             return cur_obstacle_id + 1
             
         if landscape[cur_obstacle_id].x + OBSTACLE_WIDTH <= ball.x - ball.radius:
