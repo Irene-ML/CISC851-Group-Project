@@ -47,7 +47,7 @@ def is_collision(ball, obstacle):
 
 
 ## Controll the ball's movement in NN
-def ball_control(ball, obstacles, agent):
+def ball_control(ball, obstacles, agent, vx_min = 20, vx_max = 50, vy_max = 80):
     """Control the movement of the ball
 
     Args:
