@@ -19,12 +19,12 @@ class Agent:
         self.n_feature = n_feature
         self.n_hidden = n_hidden
         self.n_out = n_out
-        self.w_ih = np.random.rand(self.n_feature, self.n_hidden) * 0.1
-        self.w_ho = np.random.rand(self.n_hidden, self.n_out) * 0.1
+        self.w_ih = np.random.rand(self.n_feature, self.n_hidden)
+        self.w_ho = np.random.rand(self.n_hidden, self.n_out)
         self.fitness = []
         
         
-    def prediction(self, input_features, activation = "sigmoid"):
+    def prediction(self, input_features, activation = "relu"):
         """
         Define prediction function that predicts the x, y components of acceleration
         Args:
@@ -56,4 +56,4 @@ class Agent:
         Args:
             x (numpy.ndarray): output scores at certain layer
         """
-        return np.maximum(0, x)
+        return np.maximum(0, np.minimum(100, x))
