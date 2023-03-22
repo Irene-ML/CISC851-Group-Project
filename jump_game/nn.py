@@ -19,10 +19,19 @@ class Agent:
         self.n_feature = n_feature
         self.n_hidden = n_hidden
         self.n_out = n_out
-        self.w_ih = np.random.rand(self.n_feature, self.n_hidden)
-        self.w_ho = np.random.rand(self.n_hidden, self.n_out)
+        self.w_ih = np.random.normal(0, 1, (self.n_feature, self.n_hidden))
+        self.w_ho = np.random.normal(0, 1, (self.n_hidden, self.n_out))
+        self.sigma_ih = np.random.rand(self.n_feature, self.n_hidden) * 0.4 + 0.8
+        self.sigma_ho = np.random.rand(self.n_hidden, self.n_out) * 0.4 + 0.8
         self.fitness = []
         
+    def update_sigma(self, rate):
+        mask_ih = np.random.rand(self.n_feature, self.n_hidden) < rate
+        mask_ho = np.random.rand(self.n_hidden, self.n_out) < rate
+        newsigma_ih = np.random.rand(self.n_feature, self.n_hidden) * 0.4 + 0.8
+        newsigma_ho = np.random.rand(self.n_hidden, self.n_out) * 0.4 + 0.8
+        self.sigma_ih = (1 - mask_ih) * self.sigma_ih + mask_ih * newsigma_ih
+        self.sigma_ho = (1 - mask_ho) * self.sigma_ho + mask_ho * newsigma_ho
         
     def prediction(self, input_features, activation = "relu"):
         """
