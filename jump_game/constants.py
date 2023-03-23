@@ -19,7 +19,27 @@ OBSTACLE_COLOR = (0, 255, 0)
 OBSTACLE_VELOCITY = 5
 OBSTACLE_GAP = 200
 
+NUMBER_OF_RUNNING = 20
 HYPER_PARAMS = {"hidden_layer_nodes": [8],
+    "input_nodes": [5],
+    "mut_rate": [0.5],
+    "mutation_sigma": [1],
+    "mutation_type": ['onestep'],
+    "xover_rate": [0.5],
+    "xover_exchange_rate": [0.2],
+    "xover_type": ['sample'],
+    "fitness_mode": ['median'],
+    "popsize": [40],
+    "tournament_size": [4],
+    "parent_selection_type": ["topK"],
+    "survival_selection_type": ["mu_plus_lambda"],
+    "epoch": [40],
+    "obstacle_number": [120],
+    "landscape_size": [150],
+    "vx_min": [5, 10, 15],
+    "vx_max": [20, 30, 40],
+    "vy_max": [70, 80, 90]}
+HYPER_PARAMS1 = {"hidden_layer_nodes": [8],
     "input_nodes": [5],
     "mut_rate": [0.2, 0.5, 0.8],
     "mutation_sigma": [1, 3],
@@ -34,6 +54,9 @@ HYPER_PARAMS = {"hidden_layer_nodes": [8],
     "survival_selection_type": ["replacement", "mu_plus_lambda"],
     "epoch": [40],
     "obstacle_number": [120],
-    "landscape_size": [150]} 
+    "landscape_size": [150],
+    "vx_min": [20], 
+    "vx_max": [50], 
+    "vy_max": [80]} 
 
 

@@ -13,7 +13,7 @@ from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y,
 from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VELOCITY
 from visualization import is_collision, ball_control
 
-def fitness_calculation(landscape, agent):
+def fitness_calculation(landscape, agent, vx_min, vx_max, vy_max):
     """
     Args:
         landscape (list): a list of obstacles
@@ -23,7 +23,8 @@ def fitness_calculation(landscape, agent):
     ball = Ball(BALL_X, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
 
     while True:
-        ball_control(ball, landscape[cur_obstacle_id:], agent)
+        ball_control(ball, landscape[cur_obstacle_id:], agent, vx_min=vx_min, vx_max=vx_max, 
+    vy_max = vy_max)
         landscape[cur_obstacle_id].speed = - ball.speed_x
         landscape[cur_obstacle_id].move()
         if is_collision(ball, landscape[cur_obstacle_id]):

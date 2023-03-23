@@ -1,9 +1,9 @@
 import itertools
 import json
 import os
-import ea
 import numpy as np
-from constants import HYPER_PARAMS
+import ea
+from constants import HYPER_PARAMS, NUMBER_OF_RUNNING
 from log import logging
 
 # Generate all combinations of parameter values
@@ -13,7 +13,7 @@ param_combinations = list(itertools.product(*HYPER_PARAMS.values()))
 num_combinations = np.prod([len(v) for k,v in HYPER_PARAMS.items()])
 
 # Generate files for each parameter combination
-def file_generator(combinations, params):
+def file_generator(combinations, params, path, RUNNING_ENABLED=True):
     """ Generate input and output files to each test folders
     Args:
         combinations (list): a list of all possible hyper parameters' combinations
@@ -26,26 +26,32 @@ def file_generator(combinations, params):
             sample_params[param_name] = param_values[j]
         
         # Write files to directory
-        new_path = "./test"
-        if not os.path.exists(new_path):
-            os.makedirs(new_path)
-        new_path = f"./test/test{i+1}"
+        if not os.path.exists(path):
+            os.makedirs(path)
+        new_path = f"{path}/{i+1}"
         if not os.path.exists(new_path):
             os.makedirs(new_path)
             print("Directory '% s' created" % new_path)
 
-        input_filename = f"{new_path}/input_params_{i+1}.json"
+        input_filename = f"{new_path}/input_params.json"
         with open(input_filename, 'w') as f:
             json.dump(sample_params, f, indent=4)
         logging.info(f"Wrote to the file: {input_filename}")
 
-        result = ea.main(sample_params)
-        output_filename = f"{new_path}/output_{i+1}.json"
-        with open(output_filename, 'w') as f:
-            json.dump(result, f, indent=4)
-        logging.info(f"Wrote to the file: {output_filename}")
+        if RUNNING_ENABLED:
+            result = ea.main(sample_params)
+            output_filename = f"{new_path}/output.json"
+            with open(output_filename, 'w') as f:
+                json.dump(result, f, indent=4)
+            logging.info(f"Wrote to the file: {output_filename}")
+        
 
 if __name__ == "__main__":
-    if len(param_combinations) == num_combinations:
-        # print(num_combinations, len(param_combinations))
-        file_generator(param_combinations, HYPER_PARAMS)
+    test_path="./test"
+    if not os.path.exists(test_path):
+        os.makedirs(test_path)
+        print("Directory '% s' created" % test_path)
+    
+    for n in range(NUMBER_OF_RUNNING):
+        if len(param_combinations) == num_combinations:
+            file_generator(param_combinations, HYPER_PARAMS, f"{test_path}/test_{n+1}")

@@ -37,7 +37,10 @@ params = {"hidden_layer_nodes": 8,
     "survival_selection_type": "mu_plus_lambda",
     "epoch": 40,
     "obstacle_number": 120,
-    "landscape_size": 150} 
+    "landscape_size": 150,
+    "vx_min": 20, 
+    "vx_max": 50, 
+    "vy_max": 80} 
 
 def main(args):
     """Design the evolutionary algorithm
@@ -49,19 +52,26 @@ def main(args):
             xover_rate, xover_exchange_rate, xover_type, \
                 fitness_mode, popsize, tournament_size, \
                     parent_selection_type, survival_selection_type, \
-                        epoch, obstacle_number, landscape_size = [v for k,v in args.items()]
+                        epoch, obstacle_number, landscape_size, \
+                             vx_min, vx_max, vy_max = [v for k,v in args.items()]
 
     mating_pool_size = int(popsize*0.5)
     
     population = [Agent(input_nodes, hidden_layer_nodes, 2) for _ in range(popsize)]
     landscapes = [create_landscape(obstacle_number) for _ in range(landscape_size)]
+    output = {}
     
     pop_fitness = []
     for agent in population:
         agent.fitness = []
         for landscape in landscapes:
-            agent.fitness.append(fitness_calculation(landscape, agent))
+            agent.fitness.append(fitness_calculation(landscape, agent, vx_min, vx_max, vy_max))
         pop_fitness.append(pop_fitness_calculation(fitness_mode, agent.fitness))
+    
+    output["initial"] = {"fitness": pop_fitness}
+    output["generated"] = []
+    output["best_result"] = {"best_fitness": 0}
+
     for gen in range(epoch):
         
         # pick parents
@@ -96,8 +106,8 @@ def main(args):
             off1.fitness = []
             off2.fitness = []
             for landscape in landscapes:
-                off1.fitness.append(fitness_calculation(landscape, off1))
-                off2.fitness.append(fitness_calculation(landscape, off2))
+                off1.fitness.append(fitness_calculation(landscape, off1, vx_min, vx_max, vy_max))
+                off2.fitness.append(fitness_calculation(landscape, off2, vx_min, vx_max, vy_max))
             offspring.append(off1)
             offspring.append(off2)
             offspring_fitness.append(pop_fitness_calculation(fitness_mode, off1.fitness))
@@ -105,10 +115,34 @@ def main(args):
             i += 2
 
         population, pop_fitness = survival_selection[survival_selection_type](population, pop_fitness, offspring, offspring_fitness)
-        logging.info(f"generation {gen} : best fitness {max(pop_fitness)}, average fitness {sum(pop_fitness)/len(pop_fitness)}")
-        print("check 0th fitness distr: ",population[0].fitness)
-    logging.info("ea done..............")
-    return 0
+        
+        max_fitness = max(pop_fitness)
+        output["generated"].append({"generation": gen, "fitness": pop_fitness, "best fitness": max_fitness, "average fitness": sum(pop_fitness)/len(pop_fitness)})
+        logging.info(output["generated"])
 
-main(params)
+        if output["best_result"]["best_fitness"] < max_fitness:
+            output["best_result"]["best_fitness"] = max_fitness
+            output["best_result"]["best_pops"] = find_max(population, pop_fitness, max_fitness)
+        if output["best_result"]["best_fitness"] == max_fitness:
+            output["best_result"]["best_pops"].extend(find_max(population, pop_fitness, max_fitness))
+
+    logging.info("ea done..............")
+    return output
+
+def find_max(population, pop_fitness, max_val):
+    """ Find information for the target max value
+    Args: 
+        population (list(Agent)): a sequence of population
+        pop_fitness (list(float)): a sequence of population fitness
+        max_val (float): the target max value to search
+    Returns:
+        (list(dict)) a list of dictionary of weights and sigmas information based on the max value
+    """
+    max_indices = [index for index in range(len(pop_fitness)) if pop_fitness[index] == max_val]
+    values = [{"w_ih": population[i].w_ih.tolist(), "w_ho": population[i].w_ho.tolist(), \
+                                                  "sigma_ih": population[i].sigma_ih.tolist(), "sigma_ho": population[i].sigma_ho.tolist()} for i in max_indices]
+    return values
+
+# Comment this out for system testing
+# main(params)
 

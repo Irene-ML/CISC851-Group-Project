@@ -28,19 +28,19 @@ def is_collision(ball, obstacle):
 
     if ball.x >= obstacle.x - ball.radius and ball.x < obstacle.x:
         if ball.y - obstacle.y >= 0:
-            #logging.debug("collision condition 1 triggered......")
+            logging.debug("collision condition 1 triggered......")
             return True
         else:
             if math.sqrt(math.pow(ball.x - obstacle.x, 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
-                #logging.debug("collision condition 2 triggered......")
+                logging.debug("collision condition 2 triggered......")
                 return True
     elif ball.x > obstacle.x and ball.x < obstacle.x + obstacle.width:
         if (obstacle.y - ball.y <= ball.radius):
-            #logging.debug("collision condition 3 triggered......")
+            logging.debug("collision condition 3 triggered......")
             return True
     elif ball.x >= obstacle.x + obstacle.width and ball.x < obstacle.x + obstacle.width + ball.radius:
         if math.sqrt(math.pow(ball.x - (obstacle.x + obstacle.width), 2) + math.pow(ball.y - obstacle.y, 2)) <= ball.radius:
-            #logging.debug("collision condition 4 triggered......")
+            logging.debug("collision condition 4 triggered......")
             return True
         
     return False
