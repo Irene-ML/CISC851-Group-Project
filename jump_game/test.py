@@ -65,7 +65,8 @@ if __name__ == "__main__":
         else:
             os.makedirs(test_path)
             print("Directory '% s' created" % test_path)
-    
+            with open(f"{test_path}/hyper_parameters.json", 'w') as f:
+                json.dump(HYPER_PARAMS, f, indent = 4)
             for n in range(NUMBER_OF_RUNNING):
                 if len(param_combinations) == num_combinations:
                     file_generator(param_combinations, HYPER_PARAMS, f"{test_path}/test_{n+1}")
