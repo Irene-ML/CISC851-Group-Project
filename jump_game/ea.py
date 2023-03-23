@@ -19,28 +19,12 @@ from constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from constants import BALL_COLOR, BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y, BALL_X
 from constants import OBSTACLE_GAP, OBSTACLE_HEIGHT, OBSTACLE_WIDTH, OBSTACLE_VELOCITY
 
+import json
 from log import logging
 
 # Sample parameters
-params = {"hidden_layer_nodes": 8, 
-    "input_nodes": 5,
-    "mut_rate": 0.6,
-    "mutation_sigma":1,
-    "mutation_type": 'nstep',
-    "xover_rate": 0.0,
-    "xover_exchange_rate": 0.2,
-    "xover_type": 'sample',
-    "fitness_mode": 'median',
-    "popsize": 40,
-    "tournament_size": 4,
-    "parent_selection_type": "topK",
-    "survival_selection_type": "mu_plus_lambda",
-    "epoch": 40,
-    "obstacle_number": 120,
-    "landscape_size": 150,
-    "vx_min": 20, 
-    "vx_max": 50, 
-    "vy_max": 80} 
+f = open("./input_params.json")
+params = json.load(f)
 
 def main(args):
     """Design the evolutionary algorithm
@@ -131,7 +115,7 @@ def main(args):
 
 def find_max(population, pop_fitness, max_val):
     """ Find information for the target max value
-    Args: 
+    Args:
         population (list(Agent)): a sequence of population
         pop_fitness (list(float)): a sequence of population fitness
         max_val (float): the target max value to search
@@ -140,9 +124,12 @@ def find_max(population, pop_fitness, max_val):
     """
     max_indices = [index for index in range(len(pop_fitness)) if pop_fitness[index] == max_val]
     values = [{"w_ih": population[i].w_ih.tolist(), "w_ho": population[i].w_ho.tolist(), \
-                                                  "sigma_ih": population[i].sigma_ih.tolist(), "sigma_ho": population[i].sigma_ho.tolist()} for i in max_indices]
+                                                  "sigma_ih": population[i].sigma_ih.tolist(), "sigma_ho": population[i].sigma_ho.tolist(), "fitness_list": population[i].fitness} for i in max_indices]
     return values
 
 # Comment this out for system testing
-# main(params)
+result = main(params)
+output_filename = "output.json"
+with open(output_filename, 'w') as f:
+    json.dump(result, f, indent=4)
 
