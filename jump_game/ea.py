@@ -37,7 +37,10 @@ params = {"hidden_layer_nodes": 8,
     "survival_selection_type": "mu_plus_lambda",
     "epoch": 40,
     "obstacle_number": 120,
-    "landscape_size": 150} 
+    "landscape_size": 150,
+    "vx_min": 20, 
+    "vx_max": 50, 
+    "vy_max": 80} 
 
 def main(args):
     """Design the evolutionary algorithm
@@ -49,7 +52,8 @@ def main(args):
             xover_rate, xover_exchange_rate, xover_type, \
                 fitness_mode, popsize, tournament_size, \
                     parent_selection_type, survival_selection_type, \
-                        epoch, obstacle_number, landscape_size = [v for k,v in args.items()]
+                        epoch, obstacle_number, landscape_size, \
+                             vx_min, vx_max, vy_max = [v for k,v in args.items()]
 
     mating_pool_size = int(popsize*0.5)
     
@@ -61,7 +65,7 @@ def main(args):
     for agent in population:
         agent.fitness = []
         for landscape in landscapes:
-            agent.fitness.append(fitness_calculation(landscape, agent))
+            agent.fitness.append(fitness_calculation(landscape, agent, vx_min, vx_max, vy_max))
         pop_fitness.append(pop_fitness_calculation(fitness_mode, agent.fitness))
     
     output["initial"] = {"fitness": pop_fitness}
@@ -102,8 +106,8 @@ def main(args):
             off1.fitness = []
             off2.fitness = []
             for landscape in landscapes:
-                off1.fitness.append(fitness_calculation(landscape, off1))
-                off2.fitness.append(fitness_calculation(landscape, off2))
+                off1.fitness.append(fitness_calculation(landscape, off1, vx_min, vx_max, vy_max))
+                off2.fitness.append(fitness_calculation(landscape, off2, vx_min, vx_max, vy_max))
             offspring.append(off1)
             offspring.append(off2)
             offspring_fitness.append(pop_fitness_calculation(fitness_mode, off1.fitness))

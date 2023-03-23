@@ -35,6 +35,9 @@ HYPER_PARAMS = {"hidden_layer_nodes": [8],
     "survival_selection_type": ["replacement", "mu_plus_lambda"],
     "epoch": [40],
     "obstacle_number": [120],
-    "landscape_size": [150]} 
+    "landscape_size": [150],
+    "vx_min": [20], 
+    "vx_max": [50], 
+    "vy_max": [80]} 
 
 
