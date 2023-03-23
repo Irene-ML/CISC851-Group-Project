@@ -14,7 +14,7 @@ param_combinations = list(itertools.product(*HYPER_PARAMS.values()))
 num_combinations = np.prod([len(v) for k,v in HYPER_PARAMS.items()])
 
 # Generate files for each parameter combination
-def file_generator(combinations, params, path, RUNNING_ENABLED=True):
+def file_generator(combinations, params, path):
     """ Generate input and output files to each test folders
     Args:
         combinations (list): a list of all possible hyper parameters' combinations
@@ -45,13 +45,6 @@ def file_generator(combinations, params, path, RUNNING_ENABLED=True):
         with open(input_filename, 'w') as f:
             json.dump(sample_params, f, indent=4)
         logging.info(f"Wrote to the file: {input_filename}")
-
-#        if RUNNING_ENABLED:
-#            result = ea.main(sample_params)
-#            output_filename = f"{new_path}/output.json"
-#            with open(output_filename, 'w') as f:
-#                json.dump(result, f, indent=4)
-#            logging.info(f"Wrote to the file: {output_filename}")
         
 
 if __name__ == "__main__":
@@ -59,7 +52,12 @@ if __name__ == "__main__":
         print("Please assign test number for this test and run something like: python3 test.py 2.")
     else:
         test_number = sys.argv[1]
-        test_path = f"./test{test_number}"
+        test_path = "./test"
+        if not os.path.exists(test_path):
+            os.makedirs(test_path)
+            print("Directory '% s' created" % test_path)
+
+        test_path = f"{test_path}/test{test_number}"
         if os.path.exists(test_path):
             print(f"Assign different number for this test rather than {test_number}" )
         else:
