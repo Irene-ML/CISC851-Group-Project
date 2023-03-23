@@ -41,7 +41,7 @@ HYPER_PARAMS = {"hidden_layer_nodes": [8],
     "vy_max": [70, 80, 90]}
 HYPER_PARAMS1 = {"hidden_layer_nodes": [8],
     "input_nodes": [5],
-    "mut_rate": [0.2, 0.5, 0.8],
+    "mut_rate": [0.1, 0.5, 0.8],
     "mutation_sigma": [1, 3],
     "mutation_type": ['onestep', 'nstep'],
     "xover_rate": [0.5],
