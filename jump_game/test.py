@@ -49,4 +49,3 @@ if __name__ == "__main__":
     if len(param_combinations) == num_combinations:
         # print(num_combinations, len(param_combinations))
         file_generator(param_combinations, HYPER_PARAMS)
-    
