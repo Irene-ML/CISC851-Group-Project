@@ -71,7 +71,7 @@ if __name__ == "__main__":
     # Add labels and title
     ax1.set_xlabel('Test set number')
     ax1.set_ylabel('Best fitness')
-    ax1.set_title('Data with Error Bars')
+    ax1.set_title('Max fitness with Error Bars')
 
     ax2.errorbar(np.arange(1, num_combinations + 1), fitnessmean_mean, yerr=fitnessmean_std, fmt='o', capsize=4)
 
