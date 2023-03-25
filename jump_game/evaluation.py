@@ -51,6 +51,11 @@ if __name__ == "__main__":
         for j in range(1, num_combinations + 1, 1):
             path = f"{base_path}/{j}"
             file_name = "output.json"
+            if not os.path.exists(f"{path}/{file_name}"):
+                print(f"Can not find output.json file in {path}.......")
+                fitness_max[j - 1].append(120)
+                fitness_mean[j - 1].append(120)
+                continue
             data = read_file(path, file_name)
             fitness_max[j - 1].append(data["generated"][epoch - 1]["best fitness"])
             fitness_mean[j - 1].append(data["generated"][epoch - 1]["average fitness"])
