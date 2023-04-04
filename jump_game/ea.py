@@ -102,7 +102,7 @@ def main(args):
         
         max_fitness = max(pop_fitness)
         output["generated"].append({"generation": gen, "fitness": pop_fitness, "best fitness": max_fitness, "average fitness": sum(pop_fitness)/len(pop_fitness)})
-        logging.info(output["generated"])
+        #logging.info(output["generated"])
 
         if output["best_result"]["best_fitness"] < max_fitness:
             output["best_result"]["best_fitness"] = max_fitness
