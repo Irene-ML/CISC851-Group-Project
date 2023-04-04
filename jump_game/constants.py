@@ -59,7 +59,7 @@ HYPER_PARAMS2 = {"hidden_layer_nodes": [8],
     "vx_max": [20],
     "vy_max": [90]}
     
-    HYPER_PARAMS = {"hidden_layer_nodes": [8],
+HYPER_PARAMS = {"hidden_layer_nodes": [8],
     "input_nodes": [5],
     "mut_rate": [0.1, 0.5],
     "mutation_sigma": [1],
