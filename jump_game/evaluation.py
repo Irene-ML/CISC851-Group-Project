@@ -85,22 +85,52 @@ def final_model_fitness_analysis(main_path):
     ax2.set_title('Mean fitness with Error Bars')
     fig.suptitle('Max and Mean fitness plots')
     plt.show()
-    
-def model_evoluation_analysis(main_path):
+
+def print_input_param(main_path, test_list):
     """
     Args:
         main_path (string): path of current test
+        tset_list (list): list that contains all the test number to be evaluate
+    """
+    file_name = "input_params.json"
+    for t_num in test_list:
+        path = f"{main_path}/test_1/{t_num}"
+        data = read_file(path, file_name)
+        print(data)
+def check_test_num_for_given_par(main_path, par_name, par_val):
+    """
+    Args:
+        main_path (string): path of current test
+        par_name (string): name of the parameter
+        par_val (type of par_name): value of par_name
     """
     hyper_param = read_file(main_path, "hyper_parameters.json")
     param_combinations = list(itertools.product(*hyper_param.values()))
     num_combinations = len(param_combinations)
+    file_name = "input_params.json"
+    for i in range(1, num_combinations + 1, 1):
+        path = f"{main_path}/test_1/{i}"
+        data = read_file(path, file_name)
+        if data[par_name] == par_val:
+            print(i)
+    
+
+
+def model_evolution_analysis(main_path, test_lst):
+    """
+    Args:
+        main_path (string): path of current test
+        tset_list (list): list that contains all the test number to be evaluate
+    """
+    hyper_param = read_file(main_path, "hyper_parameters.json")
+    num_combinations = len(test_lst)
     epoch = hyper_param['epoch'][0]
     fitness_max = [[[]for j in range(epoch)] for i in range(num_combinations)]
     fitness_mean = [[[]for j in range(epoch)] for i in range(num_combinations)]
     
     for i in range(1, 20 + 1, 1):
         base_path = f"{main_path}/test_{i}"
-        for j in range(1, num_combinations + 1, 1):
+        for j in test_lst:
             path = f"{base_path}/{j}"
             file_name = "output.json"
             if not os.path.exists(f"{path}/{file_name}"):
@@ -132,10 +162,10 @@ def model_evoluation_analysis(main_path):
         ax1.plot(x, y[i], label= f"test_{i}")
 
     # add a legend to the plot
-    #ax1.legend()
+    ax1.legend()
 
     # set the title and axis labels
-    ax1.set_title('Fitness vs generation (maximum fintess)')
+    ax1.set_title('Fitness vs generation (maximum fitness)')
     ax1.set_xlabel('Generation')
     ax1.set_ylabel('Maximum fitness')
     
@@ -151,10 +181,10 @@ def model_evoluation_analysis(main_path):
         ax2.plot(x, y[i], label= f"test_{i}")
 
     # add a legend to the plot
-    #ax2.legend()
+    ax2.legend()
 
     # set the title and axis labels
-    ax2.set_title('Fitness vs generation (mean fintess)')
+    ax2.set_title('Fitness vs generation (mean fitness)')
     ax2.set_xlabel('Generation')
     ax2.set_ylabel('Mean fitness')
 
@@ -167,9 +197,12 @@ if __name__ == "__main__":
         
     cur_dir = os.getcwd()
     main_path = f"{cur_dir}/test/{sys.argv[1]}"
-    model_evoluation_analysis(main_path)
+    #model_evolution_analysis(main_path, [1,2,3,4,5])
     #final_model_fitness_analysis(main_path)
-    
+    #check_lst1 = [i for i in range(39, 41)]
+    #check_lst2 = [100, 101,118, 120, 70, 72, 58, 64, 66, 52, 54, 40]
+    #print_input_param(main_path, check_lst1)
+    check_test_num_for_given_par(main_path, "fitness_mode", "mean")
 
     
 
