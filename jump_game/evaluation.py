@@ -26,15 +26,18 @@ def read_file(path, name):
     return json.load(f)
 
     
-def convert_dict_to_string(dic1):
+def convert_dict_to_string(dic1, val_is_lst = False):
     """
     Args:
         dic1 (dictionary): parameter or hyper parameter value
     """
     res = ""
     for key, val in dic1.items():
-        for v in val:
-            res = res + str(v)
+        if val_is_lst:
+            for v in val:
+                res = res + str(v)
+        else:
+            res = res + str(val)
     return res
     
     
@@ -97,6 +100,19 @@ def print_input_param(main_path, test_list):
         path = f"{main_path}/test_1/{t_num}"
         data = read_file(path, file_name)
         print(data)
+        
+def find_test_number(main_path, input_par):
+    hyper_param = read_file(main_path, "hyper_parameters.json")
+    param_combinations = list(itertools.product(*hyper_param.values()))
+    num_combinations = len(param_combinations)
+    target_input = convert_dict_to_string(input_par)
+    file_name = "input_params.json"
+    for i in range(1, num_combinations + 1, 1):
+        path = f"{main_path}/test_1/{i}"
+        cur_input = convert_dict_to_string(read_file(path, file_name))
+        if cur_input == target_input:
+            return i
+
 def check_test_num_for_given_par(main_path, par_name, par_val):
     """
     Args:
@@ -116,7 +132,7 @@ def check_test_num_for_given_par(main_path, par_name, par_val):
     
 
 
-def model_evolution_analysis(main_path, test_lst):
+def model_evolution_analysis(main_path, test_lst, test_name_lst):
     """
     Args:
         main_path (string): path of current test
@@ -130,8 +146,9 @@ def model_evolution_analysis(main_path, test_lst):
     
     for i in range(1, 20 + 1, 1):
         base_path = f"{main_path}/test_{i}"
-        for j in test_lst:
-            path = f"{base_path}/{j}"
+        for j in range(len(test_lst)):
+            test_id = test_lst[j]
+            path = f"{base_path}/{test_id}"
             file_name = "output.json"
             if not os.path.exists(f"{path}/{file_name}"):
                 print(f"Can not find output.json file in {path}.......")
@@ -159,7 +176,7 @@ def model_evolution_analysis(main_path, test_lst):
 
     for i in range(num_combinations):
     # plot the first line on the axes object
-        ax1.plot(x, y[i], label= f"test_{i}")
+        ax1.plot(x, y[i], label= f"test {i}: {test_name_lst[i]}")
 
     # add a legend to the plot
     ax1.legend()
@@ -178,7 +195,7 @@ def model_evolution_analysis(main_path, test_lst):
 
     for i in range(num_combinations):
     # plot the first line on the axes object
-        ax2.plot(x, y[i], label= f"test_{i}")
+        ax2.plot(x, y[i], label= f"test {i}: {test_name_lst[i]}")
 
     # add a legend to the plot
     ax2.legend()
@@ -197,12 +214,35 @@ if __name__ == "__main__":
         
     cur_dir = os.getcwd()
     main_path = f"{cur_dir}/test/{sys.argv[1]}"
-    #model_evolution_analysis(main_path, [1,2,3,4,5])
-    #final_model_fitness_analysis(main_path)
-    #check_lst1 = [i for i in range(39, 41)]
+    #model_evolution_analysis(main_path, [74, 86, 80, 73, 76, 78],["Benchmark", "nstep", "fitness got by mean", "replacement", "MPS","tournament"])
+    #model_evolution_analysis(main_path,[i for i in range(1, 33)], [i for i in range(1, 33)])
+    final_model_fitness_analysis(main_path)
+    #check_lst1 = [i for i in range(73, 96)]
     #check_lst2 = [100, 101,118, 120, 70, 72, 58, 64, 66, 52, 54, 40]
     #print_input_param(main_path, check_lst1)
-    check_test_num_for_given_par(main_path, "fitness_mode", "mean")
-
+    #check_test_num_for_given_par(main_path, "fitness_mode", "mean")
+    """input_p = {
+        "hidden_layer_nodes": 8,
+        "input_nodes": 5,
+        "mut_rate": 0.5,
+        "mutation_sigma": 3,
+        "mutation_type": "onestep",
+        "xover_rate": 0.5,
+        "xover_exchange_rate": 0.2,
+        "xover_type": "sample",
+        "fitness_mode": "median",
+        "popsize": 40,
+        "tournament_size": 4,
+        "parent_selection_type": "tournament",
+        "survival_selection_type": "mu_plus_lambda",
+        "epoch": 60,
+        "obstacle_number": 120,
+        "landscape_size": 150,
+        "vx_min": 10,
+        "vx_max": 20,
+        "vy_max": 90
+    }
+    #print(find_test_number(main_path, input_p))
+"""
     
 
