@@ -54,8 +54,9 @@ The folder structure indicates that this set of test cases will be run 20 times,
 ## Test Running
 Each test case can be run independently in each folder under *test*. Take the test case in the `test5/test_1/20` folder as an example, running *ea.py* in the folder can trigger the individual test:
 ```
-
+python3 ea.py
 ```
+**Note:** *ea.py* requires the existence of`input_params.json` in the current directory to run, since test generation and running have been automated with initialized parameters. Thus, it is essential to ensure that `input_params.json` exists in the current directory before running the test cases.
 
 ## Evaluation
 Test results can be evaluated by running *evaluation.py*. Our current results are stored as a compressed file named `test5_epoch_60.tar.gz`, and decompression is required: `tar -xvf test5_epoch_60.tar.gz`.
@@ -64,6 +65,7 @@ Once the folder `test5_epoch_60` is retrieved, run the following commands:
 ```
 python3 evaluation.py test5_epoch_60
 ```
+The script generates plots, which are stored under *results* folder.
 
 ## Visualization
 We provide options of visualizing the game by running *visualization.py* in the *test* folder. There is a *visualization.py* script under each generated test case folders. For example, we can run the command to visualize the game after training under test case `test5/test_1/20` as below:
