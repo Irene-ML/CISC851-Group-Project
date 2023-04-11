@@ -1,12 +1,12 @@
 # CISC851-Group-Project
 Dinosaur Game is a digital game where users control a T-rex using keyboards to maximize their scores by avoiding obstacles.  [Jump Game](https://github.com/Suji04/jumpingameAI) is a simplified version of Dinosaur Game. It replaces T-rex with a circle and the obstacle with a rectangle. 
 
-Our project has implemented a Neuroevolution algorithm, which combines Nueral Network (NN) with Genetic Algorithm, to find an optimized NN model that can guide users towards higher scores in the jump game.
+Our project has implemented a Neuroevolution algorithm, which combines Neural Network (NN) with Genetic Algorithm, to find an optimized NN model that can guide users towards higher scores in the jump game.
 
 It includes the following essential scripts:
  - *nn.py*: A 3-layer Neural Network model (input layer: 5 nodes, hidden layer: 8 nodes, output layer: 2 nodes)
  - *ea.py*: Evolutionary Algorithm to optimize weights for NN
- - *fitness.py*: Fitness calcuation. It calculates the fitness as the distance that an individual Neural Netowrk model traveled in a given landcape
+ - *fitness.py*: Fitness calculation. It calculates the fitness as the distance that an individual Neural Network model traveled in a given landscape
  - *mutation.py*: Uncorrelated mutation with one-step size and n-step size
  - *parent_selection.py*: Multiple parent selection algorithms, including MPS, tournament and topK. 
  - *survival_selection.py*: Multiple survival selection algorithms, including $\mu$ plus $\lambda$ and replacement.
@@ -17,7 +17,7 @@ To run the project, please follow the instructions in the later sections.
 
 ## Environment Setup
 Choose the correct python Interpreter version to run the program in VScode:
-* pythone 3.8.7
+* python 3.8.7
 * pygame installation:
 ```bash
 python3 -m pip install -U pygame --user
@@ -58,7 +58,7 @@ Each test case can be run independently in each folder under *test*. Take the te
 ```
 
 ## Evaluation
-Test results can be evaluated by running *evaluation.py*. Our current results are stored as compressed file named `test5_epoch_60.tar.gz`, and decompression is required: `tar -xvf test5_epoch_60.tar.gz`.
+Test results can be evaluated by running *evaluation.py*. Our current results are stored as a compressed file named `test5_epoch_60.tar.gz`, and decompression is required: `tar -xvf test5_epoch_60.tar.gz`.
 
 Once the folder `test5_epoch_60` is retrieved, run the following commands: 
 ```
