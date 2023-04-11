@@ -84,7 +84,7 @@ def main():
     ball = Ball(BALL_X, SCREEN_HEIGHT - BALL_RADIUS, BALL_RADIUS)
     obstacle1 = Obstacle(SCREEN_WIDTH, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -ball.speed_x)
     obstacle2 = Obstacle(obstacle1.x-obstacle1.width-OBSTACLE_GAP, OBSTACLE_WIDTH, OBSTACLE_HEIGHT, -ball.speed_x)
-    agent = Agent(4, 8, 2)
+    agent = Agent(5, 8, 2)
     obstacles = [obstacle2, obstacle1]
     # Start the game loop
     while True:
