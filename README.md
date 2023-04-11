@@ -71,6 +71,8 @@ We provide options of visualizing the game by running *visualization.py* in the 
 cd test
 python3 test5/test_1/20/visualization.py 
 ```
+GUI looks like: (./game.png)
+
 
 
 
