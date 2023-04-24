@@ -1,4 +1,11 @@
 # CISC851-Group-Project
+
+## Group Members
+* Chen Xu
+* Mengdi Lu
+* Xiaomin Cheng
+
+## Overview
 Dinosaur Game is a digital game where users control a T-rex using keyboards to maximize their scores by avoiding obstacles.  [Jump Game](https://github.com/Suji04/jumpingameAI) is a simplified version of Dinosaur Game. It replaces T-rex with a circle and the obstacle with a rectangle. 
 
 Our project has implemented a Neuroevolution algorithm, which combines Neural Network (NN) with Genetic Algorithm, to find an optimized NN model that can guide users towards higher scores in the jump game.
@@ -56,7 +63,30 @@ Each test case can be run independently in each folder under *test*. Take the te
 ```
 python3 ea.py
 ```
-**Note:** *ea.py* requires the existence of`input_params.json` in the current directory to run, since test generation and running have been automated with initialized parameters. Thus, it is essential to ensure that `input_params.json` exists in the current directory before running the test cases.
+**Note:** *ea.py* requires the existence of`input_params.json` in the current directory to run since test generation and running have been automated with initialized parameters. Thus, it is essential to ensure that `input_params.json` exists in the current directory before running the test cases. An example of `input_params.json`:
+```
+{
+    "hidden_layer_nodes": 8,
+    "input_nodes": 5,
+    "mut_rate": 0.1,
+    "mutation_sigma": 1,
+    "mutation_type": "nstep",
+    "xover_rate": 0,
+    "xover_exchange_rate": 0.2,
+    "xover_type": "sample",
+    "fitness_mode": "median",
+    "popsize": 40,
+    "tournament_size": 4,
+    "parent_selection_type": "MPS",
+    "survival_selection_type": "mu_plus_lambda",
+    "epoch": 60,
+    "obstacle_number": 120,
+    "landscape_size": 150,
+    "vx_min": 10,
+    "vx_max": 20,
+    "vy_max": 90
+}
+```
 
 ## Evaluation
 Test results can be evaluated by running *evaluation.py*. Our current results are stored as a compressed file named `test5_epoch_60.tar.gz`, and decompression is required: `tar -xvf test5_epoch_60.tar.gz`.
@@ -73,7 +103,7 @@ We provide options of visualizing the game by running *visualization.py* in the 
 cd test
 python3 test5/test_1/20/visualization.py 
 ```
-GUI looks like: ![GUI](./game.png)
+GUI looks like: <img src="./game.png" alt="GUI" width="50%" height="50%" title="Jump Game GUI">
 
 
 
