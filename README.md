@@ -1,9 +1,9 @@
 # CISC851-Group-Project
 
 ## Group Members
-* Chen Xu
-* Mengdi Lu
-* Xiaomin Cheng
+* Chen Xu [21cx25@queensu.ca]()
+* Mengdi Lu [m.lu@queensu.ca]()
+* Xiaomin Cheng [22yn4@queensu.ca]()
 
 ## Overview
 Dinosaur Game is a digital game where users control a T-rex using keyboards to maximize their scores by avoiding obstacles.  [Jump Game](https://github.com/Suji04/jumpingameAI) is a simplified version of Dinosaur Game. It replaces T-rex with a circle and the obstacle with a rectangle. 
@@ -103,7 +103,9 @@ We provide options of visualizing the game by running *visualization.py* in the 
 cd test
 python3 test5/test_1/20/visualization.py 
 ```
-GUI looks like: <img src="./game.png" alt="GUI" width="50%" height="50%" title="Jump Game GUI">
+GUI looks like: 
+
+<img src="./game.png" alt="GUI" width="50%" height="50%" title="Jump Game GUI">
 
 
 
