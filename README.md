@@ -11,7 +11,7 @@ It includes the following essential scripts:
  - *parent_selection.py*: Multiple parent selection algorithms, including MPS, tournament and topK. 
  - *survival_selection.py*: Multiple survival selection algorithms, including $\mu$ plus $\lambda$ and replacement.
 
-Additionally, *visualization.py* can create GUI for playing the game. *test.py* can create combinations of test scenarios based on parameters set in *constants.py*. Generated test cases are stored under *test* folder. After running test cases under the *test* folder, testing results are stored in https://github.com/mincocoder/CISC_results, and they are evaluated by *evaluation.py*. The generated plots are stored under *results* folder.
+Additionally, *visualization.py* can create GUI for playing the game. *test.py* can create combinations of test scenarios based on parameters set in *constants.py*. Generated test cases are stored under *test* folder. After running test cases under the *test* folder, testing results (`test5_epoch_60.tar.gz`) are stored in *test* folder in the current repo and in  https://github.com/mincocoder/CISC_results, and they are evaluated by *evaluation.py*. The generated plots are stored under *plots* folder.
 
 To run the project, please follow the instructions in the later sections.
 
@@ -65,7 +65,7 @@ Once the folder `test5_epoch_60` is retrieved, run the following commands:
 ```
 python3 evaluation.py test5_epoch_60
 ```
-The script generates plots, which are stored under *results* folder.
+The script generates plots, which are stored under *plots* folder.
 
 ## Visualization
 We provide options of visualizing the game by running *visualization.py* in the *test* folder. There is a *visualization.py* script under each generated test case folders. For example, we can run the command to visualize the game after training under test case `test5/test_1/20` as below:
